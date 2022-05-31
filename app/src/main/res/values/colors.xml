@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="Mask_Green">#368484</color>
+    <color name="Mask_Green2">#56a3a3</color>
+    <color name="Mask_Green3">#8ed1d1</color>
+    <color name="Mask_Green4">#6cc4c4</color>
+    <color name="Huawei_Gray">#f2f2f6</color>
+    <color name="Huawei_White">#fffeff</color>
+    <color name="custom_black">#3a3738</color>
+    <color name="custom_Gray">#6C736F</color>
+    <color name="custom_White">#f2f2f2</color>
+    <color name="kilin_Gray">#b8b8b8</color>
+</resources>

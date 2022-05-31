@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:paddingStart="20dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    android:layout_marginBottom="10dp"
+    android:id="@+id/relativeview"
+    android:background="@drawable/carditem">
+<!--待办完成按钮-->
+    <CheckBox
+        android:id="@+id/check_botton"
+        style="@style/CustomRadioTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingTop="6dp"
+        android:paddingStart="10dp"
+        android:text="移动应用开发"
+        android:textStyle="" />
+<!--    待办进度圈-->
+    <com.github.lzyzsd.circleprogress.DonutProgress
+        android:id="@+id/donut_progress"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_toEndOf="@+id/check_botton"
+        android:layout_marginStart="20dp"
+        android:backgroundTint="#0066FF"
+        android:backgroundTintMode="add"
+        custom:donut_finished_color="@color/Mask_Green3"
+        custom:donut_finished_stroke_width="5dp"
+        custom:donut_progress="78"
+        custom:donut_text_color="@color/black"
+        custom:donut_text_size="7dp"
+        custom:donut_unfinished_color="#f5f5f5"
+        custom:donut_unfinished_stroke_width="5dp" />
+    <!--    番茄钟按钮-->
+    <ImageView
+        android:id="@+id/todo_button"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentEnd="true"
+
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_clock_custom" />
+</RelativeLayout>

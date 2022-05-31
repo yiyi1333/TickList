@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add">添加一个代办事项</string>
+    <string name="options">更多选项</string>
+    <string name="today">今天</string>
+    <string name="tomorrow">明天</string>
+    <string name="nodate">未定</string>
+    <string name="customdate">自选</string>
+    <string name="todowhat">待办事项</string>
+    <string name="switch_countimer">启用倒计时</string>
+    <string name="save">保存</string>
+    <string name="time1">25分钟</string>
+    <string name="time2">45分钟</string>
+    <string name="customtime">自定义</string>
+    <string name="repeatway">重复</string>
+    <string name="norepeat">不重复</string>
+    <string name="daily">每天</string>
+    <string name="weekly">每周</string>
+    <string name="customdays">自定义</string>
+    <string name="description">添加备注</string>
+    <string name="start">开始专注</string>
+    <string name="doing">专注中</string>
+
+    <string-array name="english_week_string_array">
+        <item>Sun</item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+    </string-array>
+
+    <string-array name="chinese_week_string_array">
+        <item>周日</item>
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+    </string-array>
+</resources>

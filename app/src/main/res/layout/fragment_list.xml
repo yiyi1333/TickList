@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    tools:context=".fragment.ListFragment"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/Mask_Green">
+
+        <TextView
+            android:id="@+id/dateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="5月22日"
+            android:textColor="@color/white"
+            android:textSize="30dp" />
+
+        <ImageView
+            android:id="@+id/moreoptions"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_more"
+            android:contentDescription="@string/options" />
+
+    </RelativeLayout>
+
+    <com.haibin.calendarview.CalendarLayout
+        android:id="@+id/calendarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="#fff"
+        android:orientation="vertical"
+        app:calendar_content_view_id="@+id/refreshView"
+        app:gesture_mode="default_mode"
+        app:default_status="shrink">
+
+        <com.haibin.calendarview.CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/Huawei_Gray"
+            app:calendar_match_parent="false"
+            app:calendar_padding="10dp"
+            app:current_day_text_color="@color/Mask_Green4"
+            app:current_month_lunar_text_color="#CFCFCF"
+            app:current_month_text_color="#333333"
+            app:max_year="2050"
+            app:min_year="2000"
+            app:month_view="edu.zjut.zzy.ticklist.CalendarView.progress.ProgressMonthView"
+            app:month_view_show_mode="mode_only_current"
+            app:other_month_lunar_text_color="#e1e1e1"
+            app:other_month_text_color="#e1e1e1"
+            app:scheme_text="假"
+            app:scheme_text_color="#333"
+            app:scheme_theme_color="#128c4b"
+            app:selected_lunar_text_color="#CFCFCF"
+            app:selected_text_color="@color/Huawei_White"
+            app:selected_theme_color="@color/Mask_Green"
+            app:week_background="#fff"
+            app:week_start_with="sun"
+            app:week_text_color="#111111"
+            app:week_view="edu.zjut.zzy.ticklist.CalendarView.progress.ProgressWeekView"
+            app:week_bar_view="edu.zjut.zzy.ticklist.CalendarView.progress.EnglishWeekBar"
+            app:week_view_scrollable="true"
+            app:year_view_day_text_color="#333333"
+            app:year_view_day_text_size="9sp"
+            app:year_view_month_text_color="@color/Mask_Green"
+            app:year_view_month_text_size="20sp"
+            app:year_view_scheme_color="@color/Mask_Green2" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refreshView"
+
+            android:background="@color/Huawei_Gray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="50dp">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:clipToPadding="true"
+                android:paddingBottom="80dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </com.haibin.calendarview.CalendarLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addTicket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="320dp"
+        android:layout_marginTop="620dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/add"
+        android:src="@drawable/ic_add"
+        app:rippleColor="@color/Mask_Green" />
+
+
+</FrameLayout>

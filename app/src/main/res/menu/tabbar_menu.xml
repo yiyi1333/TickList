@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/list"
+        android:title="待办"
+        android:icon="@drawable/ic_ticklist"/>
+    <item android:id="@+id/rank"
+        android:title="自习室"
+        android:icon="@drawable/ic_rank"/>
+    <item android:id="@+id/clock"
+        android:title="番茄钟"
+        android:icon="@drawable/ic_clock"/>
+    <item android:id="@+id/statistics"
+        android:title="回顾"
+        android:icon="@drawable/ic_chart"/>
+    <item android:id="@+id/person"
+        android:title="个人中心"
+        android:icon="@drawable/ic_personalcenter"/>
+
+</menu>
