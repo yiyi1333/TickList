@@ -33,6 +33,7 @@ public class CalendarActivity extends AppCompatActivity {
 //    private static final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "-----onCreate");
@@ -49,12 +50,11 @@ public class CalendarActivity extends AppCompatActivity {
         if (calendarAccount != null){
             Log.d(TAG, calendarAccount.toString());
         }
-        //修改日历表
-//        ContentValues values = new ContentValues();
-//        values.put(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME, "KiLin");
-//        Uri updateUri = ContentUris.withAppendedId(CalendarContract.Calendars.CONTENT_URI, 1);
-//        int rows = getContentResolver().update(updateUri, values, null, null);
-//        Log.d(TAG, String.valueOf(rows));
+
+
+        //插入事件
+//        CalendarManager.insertEvent(getApplicationContext(), 1);
+        CalendarManager.updateEvent(getApplicationContext(), 2);
 
 
 

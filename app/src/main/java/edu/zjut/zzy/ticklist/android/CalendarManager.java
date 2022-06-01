@@ -1,6 +1,7 @@
 package edu.zjut.zzy.ticklist.android;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -10,6 +11,8 @@ import android.os.Build;
 import android.provider.CalendarContract;
 
 import androidx.annotation.RequiresApi;
+
+import java.util.Calendar;
 
 import edu.zjut.zzy.ticklist.bean.CalendarAccount;
 
@@ -72,6 +75,48 @@ public class CalendarManager {
                     cursor.getString(PROJECTION_ACCOUNT_NAME_INDEX), cursor.getString(PROJECTION_OWNER_ACCOUNT_INDEX));
         }
         return calendarAccount;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void insertEvent(Context context, long calID){
+        Calendar beginTime = Calendar.getInstance();
+        beginTime.set(2022, 5, 1, 22, 0);
+        long startMillis = beginTime.getTimeInMillis();
+        Calendar endTime = Calendar.getInstance();
+        endTime.set(2022, 5, 1, 23, 30);
+        long endMillis = endTime.getTimeInMillis();
+
+        ContentResolver cr = context.getContentResolver();
+        ContentValues values = new ContentValues();
+        values.put(CalendarContract.Events.DTSTART, startMillis);
+        values.put(CalendarContract.Events.DTEND, endMillis);
+        values.put(CalendarContract.Events.TITLE, "日历开发");
+        values.put(CalendarContract.Events.DESCRIPTION, "增加日历的增删改功能");
+        values.put(CalendarContract.Events.CALENDAR_ID, calID);
+        values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
+        Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+
+        long eventID = Long.parseLong(uri.getLastPathSegment());
+        System.out.println("EventId: " + eventID);
+    }
+
+    public static void updateEvent(Context context, long eventID){
+        ContentResolver cr = context.getContentResolver();
+        ContentValues values = new ContentValues();
+        Uri updateUri = null;
+
+        values.put(CalendarContract.Events.TITLE, "日历修改测试");
+        updateUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventID);
+        int rows = cr.update(updateUri, values, null, null);
+        System.out.println("EventsRows: " + rows);
+    }
+
+    public static void deleteEvent(Context context, long eventID){
+        ContentResolver cr = context.getContentResolver();
+        Uri deleteUri = null;
+        deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventID);
+        int rows = cr.delete(deleteUri, null, null);
+        System.out.println("EventsRows: " + rows);
     }
 
 
