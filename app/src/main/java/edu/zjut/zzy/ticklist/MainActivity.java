@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements SwitchFragment {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "------onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -62,8 +63,15 @@ public class MainActivity extends AppCompatActivity implements SwitchFragment {
     }
     @Override
     protected void onStop(){
+        Log.d(TAG, "-------onStop()");
         System.out.println("退出Activity");
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy(){
+        Log.d(TAG,  "--------onDestory()");
+        super.onDestroy();
     }
 
     @Override

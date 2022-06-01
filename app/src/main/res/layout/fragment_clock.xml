@@ -15,12 +15,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:layout_marginStart="172dp"
         android:text="@string/doing"
-        android:visibility="invisible"
         android:textColor="@color/custom_White"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:visibility="invisible" />
 
     <com.mikhaellopez.circularfillableloaders.CircularFillableLoaders
         android:id="@+id/circularFillableLoaders"
@@ -30,6 +31,8 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="100dp"
         android:layout_marginEnd="20dp"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:src="@drawable/logo_green"
         app:cfl_border="true"
         app:cfl_border_width="6dp"
@@ -42,7 +45,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/circularFillableLoaders"
-        android:layout_marginStart="106dp"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="120dp"
         android:textColor="@color/Huawei_Gray"
         android:textSize="80dp" />
@@ -52,8 +56,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/circularFillableLoaders"
-        android:layout_marginStart="140dp"
         android:layout_marginTop="30dp"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingRight="20dp"
@@ -72,7 +77,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/btn_startpause"
-        android:layout_marginStart="40dp"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="40dp"
 
@@ -80,34 +86,34 @@
 
         <ImageView
             android:id="@+id/music_start"
-            android:layout_weight="1"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="40dp"
+            android:layout_weight="1"
             android:src="@drawable/ic_music" />
 
         <ImageView
             android:id="@+id/music_select"
-            android:layout_weight="1"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="40dp"
+            android:layout_weight="1"
             android:src="@drawable/ic_river" />
 
         <ImageView
             android:id="@+id/todo_finish"
-            android:layout_weight="1"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="40dp"
-            android:src="@drawable/ic_finish"/>
+            android:layout_weight="1"
+            android:src="@drawable/ic_finish" />
 
         <ImageView
             android:id="@+id/full_screen"
-            android:layout_weight="1"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_screen"/>
+            android:layout_weight="1"
+            android:src="@drawable/ic_screen" />
     </LinearLayout>
 
     <ImageView
@@ -115,19 +121,22 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_below="@id/tool_bar"
-        android:layout_marginStart="180dp"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:src="@drawable/ic_tomato" />
 
     <TextView
         android:id="@+id/tomato_num"
-        android:layout_alignTop="@id/tomato_icon"
-        android:layout_marginStart="200dp"
-        android:layout_marginTop="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:layout_alignTop="@id/tomato_icon"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:text="0"
+
         android:textColor="@color/Mask_Green3"
-        android:text="0"/>
+        android:textSize="20dp" />
 
 </RelativeLayout>

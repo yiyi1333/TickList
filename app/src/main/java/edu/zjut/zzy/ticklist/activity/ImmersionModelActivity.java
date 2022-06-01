@@ -7,12 +7,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -50,13 +52,20 @@ public class ImmersionModelActivity extends AppCompatActivity {
     private MonitorService.MonitorServiceControl monitorServiceControl;
     private MonitrorServieConnection mconn;
 
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d(TAG, String.valueOf(keyCode));
+        return super.onKeyDown(keyCode, event);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "----onCreate()");
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+
         setContentView(R.layout.activity_immersionmodel);
 
         clockTime = findViewById(R.id.clock_time);
@@ -91,13 +100,20 @@ public class ImmersionModelActivity extends AppCompatActivity {
         Intent intent1 = new Intent(getApplicationContext(), MonitorService.class);
         bindService(intent1, mconn, BIND_AUTO_CREATE);
 
+
     }
 
     @Override
     protected void onStop(){
         Log.d(TAG, "----onStop()");
-        unbindService(conn);
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy(){
+        Log.d(TAG, "----onDestory()");
+        unbindService(conn);
+        super.onDestroy();
     }
 
     @Override
@@ -144,6 +160,7 @@ public class ImmersionModelActivity extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             immersionModelServiceControl = (ImmersionModelService.ImmersionModelServiceControl) iBinder;
+            Log.d(TAG, "bindTimerService");
             immersionModelServiceControl.setTime(targetTime, finishTime);
             immersionModelServiceControl.start();
         }
