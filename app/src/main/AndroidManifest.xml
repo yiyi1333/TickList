@@ -17,17 +17,8 @@
         android:theme="@style/Theme.TickList" >
         <activity
             android:name=".activity.ImmersionModelActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" >
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 
@@ -35,9 +26,21 @@
 <!--            </intent-filter>-->
         </activity>
 
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
 
 
         <service android:name=".service.ClockService" />
+        <service android:name=".service.ImmersionModelService"/>
+        <service android:name=".service.MonitorService"/>
     </application>
 
 </manifest>

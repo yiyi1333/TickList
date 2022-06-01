@@ -166,6 +166,7 @@ public class ClockFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("clockTime", String.valueOf(clockTime.getText()));
                 bundle.putInt("targetTime", targetTime);
+                bundle.putString("hour", String.valueOf(tomatoNumber.getText()));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
