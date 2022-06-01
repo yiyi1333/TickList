@@ -7,21 +7,29 @@ import androidx.fragment.app.Fragment;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements SwitchFragment {
     private Fragment fragment;
     private int fragmentFlag;
 
+    private static String calanderURL = "content://com.android.calendar/calendars";
+    private static String calanderEventURL = "content://com.android.calendar/events";
+    private static String calanderRemiderURL = "content://com.android.calendar/reminders";
+
     @BindView(R.id.bottom_navigation_bar)
     public BottomNavigationView bottomNavigationBar;
 
@@ -58,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements SwitchFragment {
         BindListener();
         Context context;
         alertDialogBuilder = new AlertDialog.Builder(this);
+
 
 
     }
