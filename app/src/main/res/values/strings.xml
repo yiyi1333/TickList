@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TickList</string>
+    <string name="app_name">KiLin ToDo</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add">添加一个代办事项</string>
@@ -53,4 +53,9 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="save_time">确认</string>
+    <string name="start_text">KiLinToDo (China) Software</string>
+    <string name="author">(郑展逸) 1138154255@qq.com</string>
+    <string name="account">请输入账号</string>
+    <string name="password">请输入密码</string>
+    <string name="auto_login">自动登录</string>
 </resources>

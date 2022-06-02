@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Huawei_White"
+    tools:context=".activity.LoginActivity">
+
+    <RelativeLayout
+        android:id="@+id/logo_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/logo_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/logo_green"/>
+
+        <TextView
+            android:id="@+id/logo_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/logo_image"
+            android:layout_centerVertical="true"
+            android:textSize="30dp"
+            android:textColor="@color/Mask_Green2"
+            android:text="@string/app_name"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/account_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/logo_layout"
+        android:layout_marginTop="30dp">
+
+        <EditText
+            android:id="@+id/account_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:ems="14"
+            android:gravity="center"
+            android:hint="@string/account"
+            android:singleLine="true"
+            android:background="@drawable/editborder"
+            />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/password_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/account_layout"
+        android:layout_marginTop="30dp">
+
+        <EditText
+            android:id="@+id/password_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:ems="14"
+            android:gravity="center"
+            android:hint="@string/password"
+            android:singleLine="true"
+            android:background="@drawable/editborder"
+            />
+    </RelativeLayout>
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        style="@style/Widget.AppCompat.CompoundButton.RadioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/password_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="104dp"
+        android:text="@string/auto_login"
+        android:textColor="@color/custom_Gray"
+        android:textSize="14dp"
+        tools:ignore="TouchTargetSizeCheck" />
+
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        android:layout_below="@id/checkBox"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/circlebtn"
+        android:text="→"
+        android:textColor="#ffffff"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+
+
+
+</RelativeLayout>
