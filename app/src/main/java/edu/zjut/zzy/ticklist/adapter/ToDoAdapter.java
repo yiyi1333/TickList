@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -33,6 +34,8 @@ import edu.zjut.zzy.ticklist.R;
 import edu.zjut.zzy.ticklist.SP.UserManager;
 import edu.zjut.zzy.ticklist.bean.ToDo;
 import edu.zjut.zzy.ticklist.custom.ItemHelper;
+import edu.zjut.zzy.ticklist.dao.DBOpenHelper;
+import edu.zjut.zzy.ticklist.dao.SQLiteDao;
 import edu.zjut.zzy.ticklist.fragment.ClockFragment;
 import edu.zjut.zzy.ticklist.popupwindows.EditPopUpWindow;
 
@@ -85,6 +88,19 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
                 switchFragment.switchFragment(3);
             }
         });
+
+        holder.checkButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                ToDo toDo = data.get(position);
+                toDo.setFinish(compoundButton.isChecked());
+                DBOpenHelper dbOpenHelper = new DBOpenHelper(context);
+                SQLiteDao sqLiteDao = new SQLiteDao(dbOpenHelper);
+                sqLiteDao.updateToDo(toDo);
+
+                Log.d(TAG, toDo.toString());
+            }
+        });
     }
 
     @Override
@@ -102,8 +118,13 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
 
     @Override
     public void onItemDismiss(int position) {
+        ToDo toDo = data.get(position).clone();
         data.remove(position);
         notifyItemRemoved(position);
+        DBOpenHelper dbOpenHelper = new DBOpenHelper(context);
+        SQLiteDao sqLiteDao = new SQLiteDao(dbOpenHelper);
+        sqLiteDao.deleteToDo(toDo);
+
     }
 
     @Override

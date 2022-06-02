@@ -26,8 +26,8 @@ import edu.zjut.zzy.ticklist.CInterface.PickedDate;
 import edu.zjut.zzy.ticklist.CInterface.PickedTime;
 import edu.zjut.zzy.ticklist.R;
 import edu.zjut.zzy.ticklist.SP.SettingManager;
-import edu.zjut.zzy.ticklist.bean.CalendarManager;
-import edu.zjut.zzy.ticklist.bean.CalendarAccount;
+import edu.zjut.zzy.ticklist.android.AndroidState;
+import edu.zjut.zzy.ticklist.android.CalendarAccount;
 import edu.zjut.zzy.ticklist.bean.ToDo;
 import edu.zjut.zzy.ticklist.dao.DBOpenHelper;
 import edu.zjut.zzy.ticklist.dao.SQLiteDao;
@@ -380,15 +380,15 @@ public class EditPopUpWindow extends BasePopupWindow implements PickedDate, Pick
 
                 if(position != -1){
                     //已有的修改
-                    CalendarAccount calendarAccount = CalendarManager.searchAccount(context);
+                    CalendarAccount calendarAccount = AndroidState.CalendarManager.searchAccount(context);
                     if(calendarAccount == null){
-                        CalendarManager.createCalendar(context);
-                        calendarAccount = CalendarManager.searchAccount(context);
+                        AndroidState.CalendarManager.createCalendar(context);
+                        calendarAccount = AndroidState.CalendarManager.searchAccount(context);
                     }
                     if(todo.getEventID() != 0){
-                        CalendarManager.updateEvents(context, todo);
+                        AndroidState.CalendarManager.updateEvents(context, todo);
                     }else {
-                        CalendarManager.insertEvents(context, calendarAccount.getCalID(), todo);
+                        AndroidState.CalendarManager.insertEvents(context, calendarAccount.getCalID(), todo);
                     }
                     handToDo.setToDo(todo, position);
                     DBOpenHelper dbOpenHelper = new DBOpenHelper(getContext());
@@ -411,12 +411,12 @@ public class EditPopUpWindow extends BasePopupWindow implements PickedDate, Pick
                         *  */
                         SettingManager settingManager = new SettingManager(context);
                         if(settingManager.getRepeatedEventsCalendarSetting()){
-                            CalendarAccount calendarAccount = CalendarManager.searchAccount(context);
+                            CalendarAccount calendarAccount = AndroidState.CalendarManager.searchAccount(context);
                             if(calendarAccount == null){
-                                CalendarManager.createCalendar(context);
-                                calendarAccount = CalendarManager.searchAccount(context);
+                                AndroidState.CalendarManager.createCalendar(context);
+                                calendarAccount = AndroidState.CalendarManager.searchAccount(context);
                             }
-                            todo.setEventID(CalendarManager.insertEvents(context, calendarAccount.getCalID(), todo));
+                            todo.setEventID(AndroidState.CalendarManager.insertEvents(context, calendarAccount.getCalID(), todo));
                         }
 
                         LocalDate temp = todo.getDate();
@@ -435,12 +435,12 @@ public class EditPopUpWindow extends BasePopupWindow implements PickedDate, Pick
                         }
                     }else {
                         // 插入日历
-                        CalendarAccount calendarAccount = CalendarManager.searchAccount(context);
+                        CalendarAccount calendarAccount = AndroidState.CalendarManager.searchAccount(context);
                         if(calendarAccount == null){
-                            CalendarManager.createCalendar(context);
-                            calendarAccount = CalendarManager.searchAccount(context);
+                            AndroidState.CalendarManager.createCalendar(context);
+                            calendarAccount = AndroidState.CalendarManager.searchAccount(context);
                         }
-                        todo.setEventID(CalendarManager.insertEvents(context, calendarAccount.getCalID(), todo));
+                        todo.setEventID(AndroidState.CalendarManager.insertEvents(context, calendarAccount.getCalID(), todo));
                         DBOpenHelper dbOpenHelper = new DBOpenHelper(getContext());
                         SQLiteDao sqLiteDao = new SQLiteDao(dbOpenHelper);
                         /* 创建一个重复组号和唯一id号 */

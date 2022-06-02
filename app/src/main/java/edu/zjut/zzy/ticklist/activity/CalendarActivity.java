@@ -3,8 +3,8 @@ package edu.zjut.zzy.ticklist.activity;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import edu.zjut.zzy.ticklist.R;
-import edu.zjut.zzy.ticklist.bean.CalendarManager;
-import edu.zjut.zzy.ticklist.bean.CalendarAccount;
+import edu.zjut.zzy.ticklist.android.AndroidState;
+import edu.zjut.zzy.ticklist.android.CalendarAccount;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
@@ -44,7 +44,7 @@ public class CalendarActivity extends AppCompatActivity {
         Uri uri = CalendarContract.Calendars.CONTENT_URI;
         cur = cr.query(uri, new String[]{CalendarContract.Calendars.ACCOUNT_NAME}, null, null, null);
         Log.d(TAG, String.valueOf(cur.getCount()));
-        CalendarAccount calendarAccount = CalendarManager.searchAccount(getApplicationContext());
+        CalendarAccount calendarAccount = AndroidState.CalendarManager.searchAccount(getApplicationContext());
         if (calendarAccount != null){
             Log.d(TAG, calendarAccount.toString());
         }
@@ -52,7 +52,7 @@ public class CalendarActivity extends AppCompatActivity {
 
         //插入事件
 //        CalendarManager.insertEvent(getApplicationContext(), 1);
-        CalendarManager.updateEvent(getApplicationContext(), 2);
+        AndroidState.CalendarManager.updateEvent(getApplicationContext(), 2);
 
 
 

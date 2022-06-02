@@ -74,9 +74,9 @@ public class SQLiteDao {
                     time = LocalDateTime.parse(dateStr + "-" + timeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm"));
                 }
             }
-            list.add(new ToDo( cursor.getString(cursor.getColumnIndex("content")),
+            list.add(new ToDo( cursor.getInt(cursor.getColumnIndex("kilin_id")), cursor.getString(cursor.getColumnIndex("content")),
                     cursor.getString(cursor.getColumnIndex("description")),  date,
-                    cursor.getInt(cursor.getColumnIndex("repeatedWay")), time,
+                    cursor.getInt(cursor.getColumnIndex("repeatedWay")),  cursor.getInt(cursor.getColumnIndex("repeated_id")), time,
                     cursor.getInt(cursor.getColumnIndex("timermode")), cursor.getInt(cursor.getColumnIndex("targettime")), cursor.getInt(cursor.getColumnIndex("finishtime")),
                     cursor.getInt(cursor.getColumnIndex("isfinish")) == 1, cursor.getInt(cursor.getColumnIndex("focustime"))));
         }
@@ -195,5 +195,11 @@ public class SQLiteDao {
         values.put("finishtime", time);
         values.put("isupload", 0);
         db.insert("focus", null, values);
+    }
+
+    public void deleteToDo(ToDo toDo){
+        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.delete("todo", "kilin_id = ?" , new String[]{String.valueOf(toDo.getKiLinId())});
     }
 }

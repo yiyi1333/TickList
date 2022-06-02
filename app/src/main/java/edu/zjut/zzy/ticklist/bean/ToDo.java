@@ -102,6 +102,25 @@ public class ToDo implements Cloneable{
         this.focusTime = focusTime;
     }
 
+    @Override
+    public String toString() {
+        return "ToDo{" +
+                "kiLinId=" + kiLinId +
+                ", content='" + content + '\'' +
+                ", description='" + description + '\'' +
+                ", date=" + date +
+                ", repeatedWay=" + repeatedWay +
+                ", groupId=" + groupId +
+                ", time=" + time +
+                ", timerMode=" + timerMode +
+                ", targetTime=" + targetTime +
+                ", finishTime=" + finishTime +
+                ", isFinish=" + isFinish +
+                ", focusTime=" + focusTime +
+                ", eventID=" + eventID +
+                '}';
+    }
+
     public int getKiLinId() {
         return kiLinId;
     }

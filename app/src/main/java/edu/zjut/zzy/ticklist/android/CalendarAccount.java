@@ -1,4 +1,4 @@
-package edu.zjut.zzy.ticklist.bean;
+package edu.zjut.zzy.ticklist.android;
 
 public class CalendarAccount {
     private long calID;
