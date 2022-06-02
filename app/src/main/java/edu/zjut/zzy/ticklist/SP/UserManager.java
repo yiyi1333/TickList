@@ -16,6 +16,14 @@ public class UserManager {
         sp = context.getSharedPreferences("userinfo", Context.MODE_PRIVATE);
     }
 
+    public void setAutoLoginSetting(boolean flag){
+        sp.edit().putBoolean("autoLogin", flag);
+    }
+
+    public boolean getAutoLoginSetting(){
+        return sp.getBoolean("autoLogin", false);
+    }
+
     /* 若不存在UserID则返回-1 */
     public int getUserId(){
         return sp.getInt("userId", -1);
@@ -26,14 +34,26 @@ public class UserManager {
         return sp.getString("userPassword", "12345678");
     }
 
+    public void setUserPassword(String password){
+        sp.edit().putString("userPassword", password);
+    }
+
     /* 用户名 */
     public String getUserName(){
         return sp.getString("userName", "admin");
     }
 
+    public void setUserName(String userName) {
+        sp.edit().putString("userName", userName);
+    }
+
     /* 电子邮箱 */
     public String getEmail(){
-        return sp.getString("UserEmail", null);
+        return sp.getString("userEmail", null);
+    }
+
+    public void setEmail(String email){
+        sp.edit().putString("userEmail", email);
     }
 
     public int getToDoId(){

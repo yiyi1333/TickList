@@ -2,6 +2,7 @@ package edu.zjut.zzy.ticklist.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import edu.zjut.zzy.ticklist.R;
+import edu.zjut.zzy.ticklist.SP.UserManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,19 +24,16 @@ public class StartActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_start);
 
+        UserManager userManager = new UserManager(getApplicationContext());
 
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                timer.cancel();
-            }
-        };
-        //3秒后自动关闭
-        timer.schedule(task, 1000, 1);
+        if(userManager.getAutoLoginSetting()){
+            //自动进行登录
+
+        }else {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
 
 
     }

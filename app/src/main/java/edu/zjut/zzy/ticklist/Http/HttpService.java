@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
@@ -33,49 +35,6 @@ public class HttpService {
         return okHttpClient;
     }
 
-    /*
-    //同步请求
-    public static void synchronousRequest(){
-        new Thread(){
-            public void run(){
-                if (okHttpClient == null){
-                    okHttpClient = HttpService.getOkHttpClient();
-                }
-                Request request = new Request.Builder().url("https://www.httpbin.org/").build();
-                //准备好请求的Call对象
-                Call call = okHttpClient.newCall(request);
-                try {
-                    Response response = call.execute();
-                    System.out.println(response.body().string());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
-    //异步请求
-    public static void asynchronousRequest(){
-        if (okHttpClient == null){
-            okHttpClient = HttpService.getOkHttpClient();
-        }
-        Request request = new Request.Builder().url("https://www.httpbin.org/").build();
-        //准备好请求的Call对象
-        Call call = okHttpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if(response.isSuccessful()){
-                    System.out.println(response.body().string());
-                }
-            }
-        });
-    }
-    */
 
     public static void uploadFocusTime(Focus focus){
         Gson gson = new Gson();
@@ -100,7 +59,28 @@ public class HttpService {
                 }
             }
         });
+
     }
 
+
+    public static void loginUser(String email, String password){
+        OkHttpClient okHttpClient = new OkHttpClient();
+        String url = "https://d465-183-246-21-5.ngrok.io/KiLin_war_exploded/login?email=" + email + "&password=" + password;
+        Request request = new Request.Builder().url(url).get().build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    System.out.println(response.body().string());
+                }
+            }
+        });
+    }
 
 }
