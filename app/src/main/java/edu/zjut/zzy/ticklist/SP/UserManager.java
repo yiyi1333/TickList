@@ -17,7 +17,7 @@ public class UserManager {
     }
 
     public void setAutoLoginSetting(boolean flag){
-        sp.edit().putBoolean("autoLogin", flag);
+        sp.edit().putBoolean("autoLogin", flag).apply();
     }
 
     public boolean getAutoLoginSetting(){
@@ -35,7 +35,7 @@ public class UserManager {
     }
 
     public void setUserPassword(String password){
-        sp.edit().putString("userPassword", password);
+        sp.edit().putString("userPassword", password).apply();
     }
 
     /* 用户名 */
@@ -44,7 +44,7 @@ public class UserManager {
     }
 
     public void setUserName(String userName) {
-        sp.edit().putString("userName", userName);
+        sp.edit().putString("userName", userName).apply();
     }
 
     /* 电子邮箱 */
@@ -53,7 +53,7 @@ public class UserManager {
     }
 
     public void setEmail(String email){
-        sp.edit().putString("userEmail", email);
+        sp.edit().putString("userEmail", email).apply();
     }
 
     public int getToDoId(){
