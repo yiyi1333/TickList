@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import edu.zjut.zzy.ticklist.Http.HttpService;
 import edu.zjut.zzy.ticklist.MainActivity;
 import edu.zjut.zzy.ticklist.R;
 import edu.zjut.zzy.ticklist.SP.UserManager;
@@ -62,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                 else{
                     //登录
                     OkHttpClient okHttpClient = new OkHttpClient();
-                    String url = "https://f12f-115-200-32-15.ngrok.io/KiLin_war_exploded/login?email=" + account.getText().toString() + "&password=" + password.getText().toString();
+                    String url = HttpService.URL + "login?email=" + account.getText().toString() + "&password=" + password.getText().toString();
                     Request request = new Request.Builder().url(url).get().build();
                     Call call = okHttpClient.newCall(request);
                     Log.d(TAG, "loginging........" + account.getText().toString() + "  " + password.getText().toString());

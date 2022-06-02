@@ -26,7 +26,7 @@ import okhttp3.Response;
 
 public class HttpService {
     private static OkHttpClient okHttpClient;
-    private static final String URL = "https://85b9-115-200-2-145.ngrok.io";
+    public static final String URL = "https://85b9-115-200-2-145.ngrok.io/KiLin_war_exploded/";
 
     public static OkHttpClient getOkHttpClient() {
         if(okHttpClient == null){
@@ -62,25 +62,5 @@ public class HttpService {
 
     }
 
-
-    public static void loginUser(String email, String password){
-        OkHttpClient okHttpClient = new OkHttpClient();
-        String url = "https://d465-183-246-21-5.ngrok.io/KiLin_war_exploded/login?email=" + email + "&password=" + password;
-        Request request = new Request.Builder().url(url).get().build();
-        Call call = okHttpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if(response.isSuccessful()){
-                    System.out.println(response.body().string());
-                }
-            }
-        });
-    }
 
 }

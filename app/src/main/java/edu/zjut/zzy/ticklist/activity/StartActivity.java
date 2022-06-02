@@ -2,6 +2,7 @@ package edu.zjut.zzy.ticklist.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import edu.zjut.zzy.ticklist.Http.HttpService;
 import edu.zjut.zzy.ticklist.MainActivity;
 import edu.zjut.zzy.ticklist.R;
 import edu.zjut.zzy.ticklist.SP.UserManager;
@@ -47,7 +48,7 @@ public class StartActivity extends AppCompatActivity {
                 OkHttpClient okHttpClient = new OkHttpClient();
                 String accountName = userManager.getEmail();
                 String passwords = userManager.getUserPassword();
-                String url = "https://f12f-115-200-32-15.ngrok.io/KiLin_war_exploded/login?email=" + accountName + "&password=" + passwords;
+                String url = HttpService.URL + "login?email=" + accountName + "&password=" + passwords;
                 Request request = new Request.Builder().url(url).get().build();
                 Call call = okHttpClient.newCall(request);
                 Log.d(TAG, "loginging........" + accountName + "  " + passwords);
