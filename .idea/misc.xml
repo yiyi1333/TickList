@@ -41,6 +41,7 @@
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/fragment_person.xml" value="0.33061594202898553" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/fragment_rank.xml" value="0.19739583333333333" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/fragment_rank_.xml" value="0.19739583333333333" />
+        <entry key="..\:/Android Project/TickList/app/src/main/res/layout/fragment_second.xml" value="0.36354166666666665" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/fragment_statistics.xml" value="0.45729166666666665" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/list_fragment.xml" value="0.1" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/person_fragment.xml" value="0.19739583333333333" />
@@ -56,7 +57,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

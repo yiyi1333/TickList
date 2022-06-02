@@ -47,6 +47,17 @@ public class ToDo implements Cloneable{
     //番茄钟时间
     private int focusTime;
 
+    //日历id
+    private long eventID;
+
+    public long getEventID() {
+        return eventID;
+    }
+
+    public void setEventID(long eventID) {
+        this.eventID = eventID;
+    }
+
     public ToDo() {
     }
 

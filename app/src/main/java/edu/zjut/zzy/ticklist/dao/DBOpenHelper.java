@@ -33,7 +33,8 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             "    targettime  integer,\n" +
             "    finishtime  integer,\n" +
             "    isfinish    integer,\n" +
-            "    focustime   integer\n" +
+            "    focustime   integer,\n" +
+            "    event_id    integer\n" +
             ");";
 
     private static final  String INIT_SQLITE2 = "create table focus\n" +

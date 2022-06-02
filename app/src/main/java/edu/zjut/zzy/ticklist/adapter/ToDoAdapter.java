@@ -73,8 +73,8 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
         ToDo temp = data.get(position);
         holder.checkButton.setText(temp.getContent());
         holder.checkButton.setChecked(temp.isFinish());
-        holder.donutProgress.setProgress(temp.getFinishTime());
-        holder.donutProgress.setMax(temp.getTargetTime());
+//        holder.donutProgress.setProgress(temp.getFinishTime());
+//        holder.donutProgress.setMax(temp.getTargetTime());
         holder.editPopUpWindow = new EditPopUpWindow(context, data.get(position), position, ToDoAdapter.this);
         holder.todoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +119,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
 
     public class ToDoViewHolder extends RecyclerView.ViewHolder {
         private CheckBox checkButton;
-        private DonutProgress donutProgress;
+//        private DonutProgress donutProgress;
         private ImageView todoButton;
         private RelativeLayout relativeLayout;
         private EditPopUpWindow editPopUpWindow;
@@ -128,7 +128,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
             super(itemView);
             //绑定ui
             checkButton = itemView.findViewById(R.id.check_botton);
-            donutProgress = itemView.findViewById(R.id.donut_progress);
+//            donutProgress = itemView.findViewById(R.id.donut_progress);
             todoButton = itemView.findViewById(R.id.todo_button);
             relativeLayout = itemView.findViewById(R.id.relativeview);
 

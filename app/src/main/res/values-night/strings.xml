@@ -20,6 +20,7 @@
     <string name="description">添加备注</string>
     <string name="start">开始专注</string>
     <string name="doing">专注中</string>
+    <string name="save_time">确认</string>
 
     <string-array name="english_week_string_array">
         <item>Sun</item>

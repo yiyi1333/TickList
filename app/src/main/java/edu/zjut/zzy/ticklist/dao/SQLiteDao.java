@@ -155,6 +155,7 @@ public class SQLiteDao {
         values.put("finishtime", todo.getFinishTime());
         values.put("isfinish", todo.isFinish());
         values.put("focustime", todo.getFocusTime());
+        values.put("event_id", todo.getEventID());
         db.insert("todo", null, values);
     }
 

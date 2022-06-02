@@ -3,8 +3,7 @@ package edu.zjut.zzy.ticklist.popupwindows;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -26,6 +25,9 @@ import edu.zjut.zzy.ticklist.CInterface.HandToDo;
 import edu.zjut.zzy.ticklist.CInterface.PickedDate;
 import edu.zjut.zzy.ticklist.CInterface.PickedTime;
 import edu.zjut.zzy.ticklist.R;
+import edu.zjut.zzy.ticklist.SP.SettingManager;
+import edu.zjut.zzy.ticklist.bean.CalendarManager;
+import edu.zjut.zzy.ticklist.bean.CalendarAccount;
 import edu.zjut.zzy.ticklist.bean.ToDo;
 import edu.zjut.zzy.ticklist.dao.DBOpenHelper;
 import edu.zjut.zzy.ticklist.dao.SQLiteDao;
@@ -34,6 +36,8 @@ import razerdp.util.animation.AnimationHelper;
 import razerdp.util.animation.TranslationConfig;
 
 public class EditPopUpWindow extends BasePopupWindow implements PickedDate, PickedTime {
+    private static final String TAG = EditPopUpWindow.class.getSimpleName();
+
     private Context context;
     private View root;
     private ToDo todo;
@@ -263,7 +267,7 @@ public class EditPopUpWindow extends BasePopupWindow implements PickedDate, Pick
             public void onClick(View view) {
                 dateFlag = 3;
                 dateChooser();
-                todo.setDate(LocalDate.of(2000, 11, 14));
+                todo.setDate(null);
             }
         });
 
@@ -373,8 +377,19 @@ public class EditPopUpWindow extends BasePopupWindow implements PickedDate, Pick
                 if(repeatFlag == 4 && customerRepeatButton.getText() != null){
                     todo.setRepeatedWay(Integer.parseInt(customerRepeatButton.getText().toString()));
                 }
+
                 if(position != -1){
                     //已有的修改
+                    CalendarAccount calendarAccount = CalendarManager.searchAccount(context);
+                    if(calendarAccount == null){
+                        CalendarManager.createCalendar(context);
+                        calendarAccount = CalendarManager.searchAccount(context);
+                    }
+                    if(todo.getEventID() != 0){
+                        CalendarManager.updateEvents(context, todo);
+                    }else {
+                        CalendarManager.insertEvents(context, calendarAccount.getCalID(), todo);
+                    }
                     handToDo.setToDo(todo, position);
                     DBOpenHelper dbOpenHelper = new DBOpenHelper(getContext());
                     SQLiteDao sqLiteDao = new SQLiteDao(dbOpenHelper);
@@ -382,16 +397,28 @@ public class EditPopUpWindow extends BasePopupWindow implements PickedDate, Pick
                     /*
                     *
                     *
-                    * 需要修改的bug增加
+                    * 需要修改的bug
                     *
                     *
                     *
                     *   */
-
                 }
                 else{
                     //新建
                     if(todo.getRepeatedWay() != 0){
+                        /* 重复事件添加日历
+                        * 默认方式为只添加第一天，需要在设置里修改设置
+                        *  */
+                        SettingManager settingManager = new SettingManager(context);
+                        if(settingManager.getRepeatedEventsCalendarSetting()){
+                            CalendarAccount calendarAccount = CalendarManager.searchAccount(context);
+                            if(calendarAccount == null){
+                                CalendarManager.createCalendar(context);
+                                calendarAccount = CalendarManager.searchAccount(context);
+                            }
+                            todo.setEventID(CalendarManager.insertEvents(context, calendarAccount.getCalID(), todo));
+                        }
+
                         LocalDate temp = todo.getDate();
                         DBOpenHelper dbOpenHelper = new DBOpenHelper(getContext());
                         SQLiteDao sqLiteDao = new SQLiteDao(dbOpenHelper);
@@ -407,6 +434,13 @@ public class EditPopUpWindow extends BasePopupWindow implements PickedDate, Pick
                             id++;
                         }
                     }else {
+                        // 插入日历
+                        CalendarAccount calendarAccount = CalendarManager.searchAccount(context);
+                        if(calendarAccount == null){
+                            CalendarManager.createCalendar(context);
+                            calendarAccount = CalendarManager.searchAccount(context);
+                        }
+                        todo.setEventID(CalendarManager.insertEvents(context, calendarAccount.getCalID(), todo));
                         DBOpenHelper dbOpenHelper = new DBOpenHelper(getContext());
                         SQLiteDao sqLiteDao = new SQLiteDao(dbOpenHelper);
                         /* 创建一个重复组号和唯一id号 */
@@ -537,5 +571,7 @@ public class EditPopUpWindow extends BasePopupWindow implements PickedDate, Pick
     public void setPickedTime(LocalTime time) {
         todo.setTime(LocalDateTime.of(todo.getDate().getYear(), todo.getDate().getMonthValue(), todo.getDate().getDayOfMonth(), time.getHour(), time.getMinute(), 0));
         clockText.setText(todo.getTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+        clockText.setVisibility(View.VISIBLE);
+        Log.d(TAG, todo.getTime().toString());
     }
 }

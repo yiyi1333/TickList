@@ -49,9 +49,6 @@ public class MainActivity extends AppCompatActivity implements SwitchFragment {
     private Fragment fragment;
     private int fragmentFlag;
 
-    private static String calanderURL = "content://com.android.calendar/calendars";
-    private static String calanderEventURL = "content://com.android.calendar/events";
-    private static String calanderRemiderURL = "content://com.android.calendar/reminders";
 
     @BindView(R.id.bottom_navigation_bar)
     public BottomNavigationView bottomNavigationBar;

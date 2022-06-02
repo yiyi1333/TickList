@@ -1,4 +1,4 @@
-package edu.zjut.zzy.ticklist.android;
+package edu.zjut.zzy.ticklist.bean;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi;
 import java.util.Calendar;
 
 import edu.zjut.zzy.ticklist.bean.CalendarAccount;
+import edu.zjut.zzy.ticklist.bean.ToDo;
 
 public class CalendarManager {
     private static final  String[] EVENT_PROJECTION = new String[]{
@@ -78,7 +79,7 @@ public class CalendarManager {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void insertEvent(Context context, long calID){
+    public static long insertEvents(Context context, long calID){
         Calendar beginTime = Calendar.getInstance();
         beginTime.set(2022, 5, 1, 22, 0);
         long startMillis = beginTime.getTimeInMillis();
@@ -97,7 +98,51 @@ public class CalendarManager {
         Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
 
         long eventID = Long.parseLong(uri.getLastPathSegment());
-        System.out.println("EventId: " + eventID);
+        return eventID;
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static long insertEvents(Context context, long calID, ToDo toDo){
+        Calendar beginTime = Calendar.getInstance();
+        beginTime.set(toDo.getDate().getYear(), toDo.getDate().getMonthValue() - 1, toDo.getDate().getDayOfMonth(), toDo.getTime().getHour(), toDo.getTime().getMinute());
+        long startMillis = beginTime.getTimeInMillis();
+        Calendar endTime = Calendar.getInstance();
+        endTime.set(toDo.getDate().getYear(), toDo.getDate().getMonthValue() - 1, toDo.getDate().getDayOfMonth(), toDo.getTime().getHour(), toDo.getTime().getMinute() + 5);
+        long endMillis = endTime.getTimeInMillis();
+
+        ContentResolver cr = context.getContentResolver();
+        ContentValues values = new ContentValues();
+        values.put(CalendarContract.Events.DTSTART, startMillis);
+        values.put(CalendarContract.Events.DTEND, endMillis);
+        values.put(CalendarContract.Events.TITLE, toDo.getContent());
+        values.put(CalendarContract.Events.DESCRIPTION, toDo.getDescription());
+        values.put(CalendarContract.Events.CALENDAR_ID, calID);
+        values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
+        Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+
+        long eventID = Long.parseLong(uri.getLastPathSegment());
+        return eventID;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static void updateEvents(Context context, ToDo toDo){
+        ContentResolver cr = context.getContentResolver();
+        ContentValues values = new ContentValues();
+        Calendar beginTime = Calendar.getInstance();
+        beginTime.set(toDo.getDate().getYear(), toDo.getDate().getMonthValue() - 1, toDo.getDate().getDayOfMonth(), toDo.getTime().getHour(), toDo.getTime().getMinute());
+        long startMillis = beginTime.getTimeInMillis();
+        Calendar endTime = Calendar.getInstance();
+        endTime.set(toDo.getDate().getYear(), toDo.getDate().getMonthValue() - 1, toDo.getDate().getDayOfMonth(), toDo.getTime().getHour(), toDo.getTime().getMinute() + 5);
+        long endMillis = endTime.getTimeInMillis();
+        Uri updateUri = null;
+        values.put(CalendarContract.Events.TITLE, toDo.getContent());
+        values.put(CalendarContract.Events.DTSTART, startMillis);
+        values.put(CalendarContract.Events.DTEND, endMillis);
+        values.put(CalendarContract.Events.DESCRIPTION, toDo.getDescription());
+        updateUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, toDo.getEventID());
+        int rows = cr.update(updateUri, values, null, null);
+        System.out.println("EventsRows: " + rows);
     }
 
     public static void updateEvent(Context context, long eventID){

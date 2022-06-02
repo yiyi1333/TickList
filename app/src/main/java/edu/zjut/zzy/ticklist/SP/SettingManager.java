@@ -13,4 +13,9 @@ public class SettingManager {
     public boolean getLoginAutoSetting(){
         return sp.getBoolean("loginAuto", false);
     }
+
+    //重复事件日历提醒事件
+    public boolean getRepeatedEventsCalendarSetting(){
+        return sp.getBoolean("repeatedEventsCalendar", false);
+    }
 }

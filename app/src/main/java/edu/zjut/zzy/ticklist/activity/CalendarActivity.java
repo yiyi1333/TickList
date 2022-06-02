@@ -3,12 +3,10 @@ package edu.zjut.zzy.ticklist.activity;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import edu.zjut.zzy.ticklist.R;
-import edu.zjut.zzy.ticklist.android.CalendarManager;
+import edu.zjut.zzy.ticklist.bean.CalendarManager;
 import edu.zjut.zzy.ticklist.bean.CalendarAccount;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;

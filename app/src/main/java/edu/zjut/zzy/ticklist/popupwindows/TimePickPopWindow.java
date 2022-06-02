@@ -2,9 +2,11 @@ package edu.zjut.zzy.ticklist.popupwindows;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.annotation.RequiresApi;
@@ -19,10 +21,13 @@ import razerdp.util.animation.AnimationHelper;
 import razerdp.util.animation.TranslationConfig;
 
 public class TimePickPopWindow extends BasePopupWindow {
+    private static final String TAG = TimePickPopWindow.class.getSimpleName();
     private Context context;
     private View root;
     private TimePicker timePicker;
     private PickedTime pickedTime;
+    private TextView timeSave;
+    private LocalTime time;
 
     public TimePickPopWindow(Context context, PickedTime picker){
         super(context);
@@ -40,14 +45,24 @@ public class TimePickPopWindow extends BasePopupWindow {
             @Override
             public void onTimeChanged(TimePicker timePicker, int i, int i1) {
                 LocalTime localTime = LocalTime.of(i, i1);
-                pickedTime.setPickedTime(localTime);
-//                TimePickPopWindow.this.dismiss();
+                time = LocalTime.of(i, i1, 0);
+            }
+        });
+
+        timeSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(time != null){
+                    pickedTime.setPickedTime(time);
+                    TimePickPopWindow.this.dismiss();
+                }
             }
         });
     }
 
     private void bindView() {
         timePicker = root.findViewById(R.id.time_picker);
+        timeSave = root.findViewById(R.id.time_save);
     }
 
     @Override
