@@ -3,4 +3,9 @@
     <style name="CustomRadioTheme" parent="Widget.AppCompat.CompoundButton.CheckBox">
         <item name="android:button">@drawable/radio_check</item>
     </style>
+
+    <style name="circleImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

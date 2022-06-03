@@ -16,6 +16,22 @@ public class UserManager {
         sp = context.getSharedPreferences("userinfo", Context.MODE_PRIVATE);
     }
 
+    public void setClassroomName(String roomName){
+        sp.edit().putString("roomName", roomName).apply();
+    }
+
+    public String getClassroomName(){
+        return sp.getString("roomName", null);
+    }
+
+    public void setClassroomCode(String roomCode){
+        sp.edit().putString("roomCode", roomCode).apply();
+    }
+
+    public String getClassRoomCode(){
+        return sp.getString("roomCode", null);
+    }
+
     public void setAutoLoginSetting(boolean flag){
         sp.edit().putBoolean("autoLogin", flag).apply();
     }

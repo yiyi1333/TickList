@@ -58,4 +58,10 @@
     <string name="account">请输入账号</string>
     <string name="password">请输入密码</string>
     <string name="auto_login">自动登录</string>
+    <string name="minutes">分钟</string>
+    <string name="create">创建自习室</string>
+    <string name="join">加入自习室</string>
+    <string name="create_classroom">创建自习室</string>
+    <string name="classroomnameedit">自习室名称</string>
+    <string name="confirm">确认</string>
 </resources>

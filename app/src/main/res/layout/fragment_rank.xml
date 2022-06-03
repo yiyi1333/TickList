@@ -1,15 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Mask_Green"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.RankFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <RelativeLayout
+        android:id="@+id/rank_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="@color/Huawei_Gray">
 
-</FrameLayout>
+        <RelativeLayout
+            android:id="@+id/rank_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/Mask_Green">
+
+            <TextView
+                android:id="@+id/classroom_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="我们是卷心菜"
+                android:textColor="@color/Huawei_White"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/classroom_rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/classroom_name"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="30dp"
+                android:text="No.1"
+                android:textColor="@color/Huawei_White"
+                android:textSize="28dp" />
+
+            <TextView
+                android:id="@+id/classroom_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/classroom_name"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="自习室人数：10/50"
+                android:textColor="@color/Huawei_White" />
+
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rank_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rank_head" />
+
+<!--        <ImageView-->
+<!--            android:id="@+id/image_view"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/rank_list"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_marginTop="20dp" />-->
+
+<!--        <com.google.android.material.imageview.ShapeableImageView-->
+<!--            android:id="@+id/image_view_2"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/image_view"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            app:shapeAppearanceOverlay="@style/circleImageStyle"-->
+<!--            />-->
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/classroom_join"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/Huawei_Gray">
+
+        <Button
+            android:id="@+id/classroom_create_button"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/classroom_btn"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="280dp"
+            android:text="@string/create"
+            android:textSize="22dp"
+            android:textColor="@color/Huawei_White"/>
+
+        <Button
+            android:id="@+id/classroom_join_button"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/classroom_btn"
+            android:layout_below="@+id/classroom_create_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="@string/join"
+            android:textSize="22dp"
+            android:textColor="@color/Huawei_White"/>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>
