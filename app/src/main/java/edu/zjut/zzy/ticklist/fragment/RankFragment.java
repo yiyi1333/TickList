@@ -2,9 +2,11 @@ package edu.zjut.zzy.ticklist.fragment;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,20 +23,27 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import edu.zjut.zzy.ticklist.CInterface.ClassroomJoin;
 import edu.zjut.zzy.ticklist.Http.HttpService;
 import edu.zjut.zzy.ticklist.R;
 import edu.zjut.zzy.ticklist.SP.UserManager;
 import edu.zjut.zzy.ticklist.bean.Classroom;
+import edu.zjut.zzy.ticklist.bean.RankInfo;
 import edu.zjut.zzy.ticklist.popupwindows.ClassroomCreatePopWindow;
 import edu.zjut.zzy.ticklist.popupwindows.ClassroomJoinPopWindow;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Request.Builder;
 import okhttp3.Response;
 
 public class RankFragment extends Fragment implements ClassroomJoin {
@@ -58,6 +67,8 @@ public class RankFragment extends Fragment implements ClassroomJoin {
 
     private String roomCode;
     private String roomName;
+
+    private ArrayList<RankInfo> rankInfos;
 
 
 /*
@@ -106,6 +117,7 @@ public class RankFragment extends Fragment implements ClassroomJoin {
         super.onCreate(savedInstanceState);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -128,7 +140,13 @@ public class RankFragment extends Fragment implements ClassroomJoin {
             //已经加入自习室
             rankLayout.setVisibility(View.VISIBLE);
             classroomJoinLayout.setVisibility(View.GONE);
+            classroomName.setText(roomName);
+            classroomRank.setText("No.1");
+            classroomNumber.setText("自习室人数: 1/50  (" + roomCode + ")");
+            loadListData();
         }
+        //更新sp,异步
+        updateClassroomStatus();
 
         return root;
     }
@@ -177,6 +195,70 @@ public class RankFragment extends Fragment implements ClassroomJoin {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void loadListData(){
+        UserManager userManager = new UserManager(getContext());
+        String email = userManager.getEmail();
+        LocalDate nowDate = LocalDate.now();
+        //向服务器请求专注信息数据
+        OkHttpClient okHttpClient = new OkHttpClient();
+        String url = HttpService.URL + "getFocusRankInfo?email=" + email + "&date=" + nowDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        Log.d(TAG, url);
+        Request request = new Request.Builder().url(url).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String jsonStr = response.body().string();
+                    Log.d(TAG, jsonStr);
+                    Message message = httpHandler.obtainMessage(1);
+                    message.obj = jsonStr;
+                    httpHandler.sendMessage(message);
+                }
+            }
+        });
+
+    }
+
+    private void updateClassroomStatus(){
+        UserManager userManager = new UserManager(getContext());
+        String email = userManager.getEmail();
+        //向服务器请求自习室信息数据
+        OkHttpClient okHttpClient = new OkHttpClient();
+        String url = HttpService.URL + "getClassroomNameAndCode?email=" + email;
+        Log.d(TAG, url);
+        Request request = new Request.Builder().url(url).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String jsonStr = response.body().string();
+                    Log.d(TAG, jsonStr);
+                    if(!jsonStr.equals("null")){
+                        Message message = httpHandler.obtainMessage(2);
+                        message.obj = jsonStr;
+                        httpHandler.sendMessage(message);
+                    }else{
+                        Message message = httpHandler.obtainMessage(3);
+                        httpHandler.sendMessage(message);
+                    }
+                }
+            }
+        });
+    }
+
     @Override
     public void switchToClassroom(Classroom classroom) {
         roomName = classroom.getClassroomName();
@@ -186,10 +268,39 @@ public class RankFragment extends Fragment implements ClassroomJoin {
         classroomNumber.setText("自习室人数: 1/50  (" + roomCode + ")");
         rankLayout.setVisibility(View.VISIBLE);
         classroomJoinLayout.setVisibility(View.GONE);
-
         //修改sp
-//        UserManager userManager = new UserManager(getContext());
-//        userManager.setClassroomCode(roomCode);
-//        userManager.setClassroomName(roomName);
+        UserManager userManager = new UserManager(getContext());
+        userManager.setClassroomCode(roomCode);
+        userManager.setClassroomName(roomName);
     }
+
+    private Handler httpHandler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            String jsonStr = null;
+            Gson gson = new Gson();
+            UserManager userManager = new UserManager(getContext());
+            switch (msg.what){
+                case 1:
+                    jsonStr = (String) msg.obj;
+                    TypeToken<ArrayList<RankInfo>> typeToken = new TypeToken<ArrayList<RankInfo>>(){};
+                    rankInfos = gson.fromJson(jsonStr, typeToken.getType());
+                    Log.d(TAG, rankInfos.toString());
+                    break;
+                case 2:
+                    //有自习室信息，更新一下sp
+                    jsonStr = (String) msg.obj;
+                    Classroom classroom = gson.fromJson(jsonStr, Classroom.class);
+                    userManager.setClassroomName(classroom.getClassroomName());
+                    userManager.setClassroomCode(classroom.getRoomCode());
+                    break;
+                case 3:
+                    //也需要更新一下sp
+                    userManager.setClassroomName(null);
+                    userManager.setClassroomCode(null);
+                    break;
+            }
+        }
+    };
 }
