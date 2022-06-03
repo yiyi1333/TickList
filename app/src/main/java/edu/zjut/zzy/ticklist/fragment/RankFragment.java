@@ -30,6 +30,7 @@ import edu.zjut.zzy.ticklist.R;
 import edu.zjut.zzy.ticklist.SP.UserManager;
 import edu.zjut.zzy.ticklist.bean.Classroom;
 import edu.zjut.zzy.ticklist.popupwindows.ClassroomCreatePopWindow;
+import edu.zjut.zzy.ticklist.popupwindows.ClassroomJoinPopWindow;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -52,6 +53,7 @@ public class RankFragment extends Fragment implements ClassroomJoin {
     private RecyclerView rankView;
 
     private ClassroomCreatePopWindow classroomCreatePopWindow;
+    private ClassroomJoinPopWindow classroomJoinPopWindow;
 
 
     private String roomCode;
@@ -128,11 +130,6 @@ public class RankFragment extends Fragment implements ClassroomJoin {
             classroomJoinLayout.setVisibility(View.GONE);
         }
 
-
-
-
-
-
         return root;
     }
 
@@ -169,7 +166,13 @@ public class RankFragment extends Fragment implements ClassroomJoin {
             @Override
             public void onClick(View view) {
                 //跳出弹窗, 输入自习室号
-
+                Log.d(TAG, "click----create");
+                classroomJoinPopWindow = new ClassroomJoinPopWindow(RankFragment.this.getContext(), RankFragment.this);
+                classroomJoinPopWindow.setBlurBackgroundEnable(true);
+                classroomJoinPopWindow.setKeyboardAdaptive(true);
+                classroomJoinPopWindow.setPopupGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER);
+                classroomJoinPopWindow.showPopupWindow();
+                Log.d(TAG, "popupWindowsjoin");
             }
         });
     }
@@ -185,8 +188,8 @@ public class RankFragment extends Fragment implements ClassroomJoin {
         classroomJoinLayout.setVisibility(View.GONE);
 
         //修改sp
-        UserManager userManager = new UserManager(getContext());
-        userManager.setClassroomCode(roomCode);
-        userManager.setClassroomName(roomName);
+//        UserManager userManager = new UserManager(getContext());
+//        userManager.setClassroomCode(roomCode);
+//        userManager.setClassroomName(roomName);
     }
 }

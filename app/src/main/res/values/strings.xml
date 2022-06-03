@@ -64,4 +64,6 @@
     <string name="create_classroom">创建自习室</string>
     <string name="classroomnameedit">自习室名称</string>
     <string name="confirm">确认</string>
+    <string name="join_classroom">加入自习室</string>
+    <string name="classroomcodeedit">自习室编码</string>
 </resources>
