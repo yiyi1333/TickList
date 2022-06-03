@@ -8,6 +8,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
@@ -35,8 +37,12 @@ import edu.zjut.zzy.ticklist.CInterface.ClassroomJoin;
 import edu.zjut.zzy.ticklist.Http.HttpService;
 import edu.zjut.zzy.ticklist.R;
 import edu.zjut.zzy.ticklist.SP.UserManager;
+import edu.zjut.zzy.ticklist.adapter.RankAdapter;
 import edu.zjut.zzy.ticklist.bean.Classroom;
+import edu.zjut.zzy.ticklist.bean.ClassroomInfo;
 import edu.zjut.zzy.ticklist.bean.RankInfo;
+import edu.zjut.zzy.ticklist.custom.ItemTouchHelperCallback;
+import edu.zjut.zzy.ticklist.custom.SpaceItemDecoration;
 import edu.zjut.zzy.ticklist.popupwindows.ClassroomCreatePopWindow;
 import edu.zjut.zzy.ticklist.popupwindows.ClassroomJoinPopWindow;
 import okhttp3.Call;
@@ -60,6 +66,7 @@ public class RankFragment extends Fragment implements ClassroomJoin {
     private TextView classroomRank;
     private TextView classroomNumber;
     private RecyclerView rankView;
+    private RankAdapter rankAdapter;
 
     private ClassroomCreatePopWindow classroomCreatePopWindow;
     private ClassroomJoinPopWindow classroomJoinPopWindow;
@@ -69,43 +76,6 @@ public class RankFragment extends Fragment implements ClassroomJoin {
     private String roomName;
 
     private ArrayList<RankInfo> rankInfos;
-
-
-/*
-* 加载网络图片的方法
-*  */
-//    private Handler imageHandler = new Handler(){
-//        @Override
-//        public void handleMessage(@NonNull Message msg) {
-//            super.handleMessage(msg);
-//            byte[] bytes = (byte[]) msg.obj;
-//            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-////            imageView.setImageBitmap(bitmap);
-////            imageView1.setImageBitmap(bitmap);
-//        }
-//    };
-//
-//    private void httpImageLoad(String url){
-////        String url = "https://yiyi-picture.oss-cn-hangzhou.aliyuncs.com/Typora/image-20220519101347343.png";
-//        OkHttpClient okHttpClient = new OkHttpClient();
-//        Request request = new Request.Builder().url(url).build();
-//        Call call = okHttpClient.newCall(request);
-//        call.enqueue(new Callback() {
-//            @Override
-//            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-//
-//            }
-//
-//            @Override
-//            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-//                if(response.isSuccessful()){
-//                    Message message = imageHandler.obtainMessage();
-//                    message.obj = response.body().bytes();
-//                    imageHandler.sendMessage(message);
-//                }
-//            }
-//        });
-//    }
 
     public RankFragment() {
         // Required empty public constructor
@@ -147,7 +117,6 @@ public class RankFragment extends Fragment implements ClassroomJoin {
         }
         //更新sp,异步
         updateClassroomStatus();
-
         return root;
     }
 
@@ -231,7 +200,7 @@ public class RankFragment extends Fragment implements ClassroomJoin {
         String email = userManager.getEmail();
         //向服务器请求自习室信息数据
         OkHttpClient okHttpClient = new OkHttpClient();
-        String url = HttpService.URL + "getClassroomNameAndCode?email=" + email;
+        String url = HttpService.URL + "getClassroomRankInfo?email=" + email;
         Log.d(TAG, url);
         Request request = new Request.Builder().url(url).build();
         Call call = okHttpClient.newCall(request);
@@ -274,6 +243,18 @@ public class RankFragment extends Fragment implements ClassroomJoin {
         userManager.setClassroomName(roomName);
     }
 
+
+    private void loadRankView(){
+        //渲染列表
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rankView.setLayoutManager(linearLayoutManager);
+        rankAdapter = new RankAdapter(getContext(), rankInfos);
+        rankView.setAdapter(rankAdapter);
+        rankView.addItemDecoration(new SpaceItemDecoration(10));
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback(rankAdapter));
+//        itemTouchHelper.attachToRecyclerView(rankView);
+    }
+
     private Handler httpHandler = new Handler(){
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -286,12 +267,17 @@ public class RankFragment extends Fragment implements ClassroomJoin {
                     jsonStr = (String) msg.obj;
                     TypeToken<ArrayList<RankInfo>> typeToken = new TypeToken<ArrayList<RankInfo>>(){};
                     rankInfos = gson.fromJson(jsonStr, typeToken.getType());
-                    Log.d(TAG, rankInfos.toString());
+                    Log.d(TAG, "rankInfos: " + rankInfos.toString());
+                    loadRankView();
                     break;
                 case 2:
                     //有自习室信息，更新一下sp
                     jsonStr = (String) msg.obj;
-                    Classroom classroom = gson.fromJson(jsonStr, Classroom.class);
+                    ClassroomInfo classroom = gson.fromJson(jsonStr, ClassroomInfo.class);
+                    Log.d(TAG, "classroomInfo:" + classroom);
+                    classroomName.setText(classroom.getClassroomName());
+                    classroomNumber.setText("自习室人数:" + classroom.getNumber() + "/50 (" + classroom.getRoomCode() + ")" );
+                    classroomRank.setText("No." + classroom.getRank());
                     userManager.setClassroomName(classroom.getClassroomName());
                     userManager.setClassroomCode(classroom.getRoomCode());
                     break;
