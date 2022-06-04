@@ -14,9 +14,17 @@ import android.provider.CalendarContract;
 
 import androidx.annotation.RequiresApi;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.EventListener;
 
+import edu.zjut.zzy.ticklist.bean.Course;
 import edu.zjut.zzy.ticklist.bean.ToDo;
+import edu.zjut.zzy.ticklist.dao.DBOpenHelper;
+import edu.zjut.zzy.ticklist.dao.SQLiteDao;
 
 public class AndroidState {
 
@@ -176,6 +184,135 @@ public class AndroidState {
             deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventID);
             int rows = cr.delete(deleteUri, null, null);
             System.out.println("EventsRows: " + rows);
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        public static LocalTime courseStartTime(int courseNumber){
+            LocalTime time = null;
+            switch (courseNumber){
+                case 1:
+                    time = LocalTime.of(8, 0, 0);
+                    break;
+                case 2:
+                    time = LocalTime.of(8, 55, 0);
+                    break;
+                case 3:
+                    time = LocalTime.of(9, 55, 0);
+                    break;
+                case 4:
+                    time = LocalTime.of(10, 50, 0);
+                    break;
+                case 5:
+                    time = LocalTime.of(11, 50, 0);
+                    break;
+                case 6:
+                    time = LocalTime.of(13, 30, 0);
+                    break;
+                case 7:
+                    time = LocalTime.of(14, 25, 0);
+                    break;
+                case 8:
+                    time = LocalTime.of(15, 25, 0);
+                    break;
+                case 9:
+                    time = LocalTime.of(16, 20, 0);
+                    break;
+                case 10:
+                    time = LocalTime.of(18, 30, 0);
+                    break;
+                case 11:
+                    time = LocalTime.of(19, 25, 0);
+                    break;
+                case 12:
+                    time = LocalTime.of(20, 25, 0);
+                    break;
+
+            }
+            return time;
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        public static LocalTime courseEndTime(int courseNumber){
+            LocalTime time = null;
+            switch (courseNumber){
+                case 1:
+                    time = LocalTime.of(8, 45, 0);
+                    break;
+                case 2:
+                    time = LocalTime.of(9, 40, 0);
+                    break;
+                case 3:
+                    time = LocalTime.of(10, 40, 0);
+                    break;
+                case 4:
+                    time = LocalTime.of(11, 35, 0);
+                    break;
+                case 5:
+                    time = LocalTime.of(12, 35, 0);
+                    break;
+                case 6:
+                    time = LocalTime.of(14, 15, 0);
+                    break;
+                case 7:
+                    time = LocalTime.of(15, 10, 0);
+                    break;
+                case 8:
+                    time = LocalTime.of(16, 10, 0);
+                    break;
+                case 9:
+                    time = LocalTime.of(17, 5, 0);
+                    break;
+                case 10:
+                    time = LocalTime.of(19, 15, 0);
+                    break;
+                case 11:
+                    time = LocalTime.of(20, 10, 0);
+                    break;
+                case 12:
+                    time = LocalTime.of(21, 10, 0);
+                    break;
+
+            }
+            return time;
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        public static ArrayList<ToDo> insertCourse(Context context, long calID, Course course, LocalDate firstDate){
+            ArrayList<ToDo> arrayList = new ArrayList<>();
+            LocalTime startTime = courseStartTime(course.getBeginTime());
+            LocalTime endTime = courseEndTime(course.getEndTime());
+            DBOpenHelper dbOpenHelper = new DBOpenHelper(context);
+            SQLiteDao sqLiteDao = new SQLiteDao(dbOpenHelper);
+            //创建重复组号
+            int groupid = sqLiteDao.getMaxKinLinGroupId() + 1;
+            int id = sqLiteDao.getMaxKinLinId() + 1;
+            for(int i = 1; i <= 16; i++){
+                if(i < course.getBeginWeek() || i > course.getEndWeek()) continue;
+                LocalDate date = firstDate.plusDays(7 * (i - 1) + course.getCourseWeekday() - 1);
+                Calendar courseBeginTime = Calendar.getInstance();
+                courseBeginTime.set(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth(), startTime.getHour(), startTime.getMinute());
+                Calendar courseEndTime = Calendar.getInstance();
+                courseEndTime.set(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth(), endTime.getHour(), endTime.getMinute());
+                long startMillis = courseBeginTime.getTimeInMillis();
+                long endMillis = courseEndTime.getTimeInMillis();
+
+                ContentResolver cr = context.getContentResolver();
+                ContentValues values = new ContentValues();
+                values.put(CalendarContract.Events.DTSTART, startMillis);
+                values.put(CalendarContract.Events.DTEND, endMillis);
+                values.put(CalendarContract.Events.TITLE, course.getCourseName());
+                values.put(CalendarContract.Events.DESCRIPTION, course.getCourseClassroom() + " " + course.getCourseTeacher());
+                values.put(CalendarContract.Events.CALENDAR_ID, calID);
+                values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
+                Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+                long eventId = Long.parseLong(uri.getLastPathSegment());
+                ToDo todo = new ToDo(id++, course.getCourseName(), course.getCourseClassroom() + " " + course.getCourseTeacher(),
+                        date, ToDo.WEEKLY, groupid, LocalDateTime.of(date, startTime), ToDo.PASSIVE, 45 * (course.getEndTime() - course.getBeginTime()),
+                        0, false, 45);
+                todo.setEventID(eventId);
+                arrayList.add(todo);
+            }
+            return arrayList;
         }
 
 

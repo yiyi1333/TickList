@@ -65,11 +65,8 @@ public class MainActivity extends AppCompatActivity implements SwitchFragment {
             getSupportFragmentManager().beginTransaction().replace(R.id.frameContain, fragment).commit();
         }
         BindListener();
-        Context context;
+//        Context context;
         alertDialogBuilder = new AlertDialog.Builder(this);
-
-
-
     }
     @Override
     protected void onStop(){

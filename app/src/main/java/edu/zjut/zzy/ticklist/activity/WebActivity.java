@@ -1,15 +1,25 @@
 package edu.zjut.zzy.ticklist.activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import edu.zjut.zzy.ticklist.CInterface.PickedDate;
 import edu.zjut.zzy.ticklist.PDFReader.ZJUTCourseReader;
 import edu.zjut.zzy.ticklist.R;
+import edu.zjut.zzy.ticklist.android.AndroidState;
+import edu.zjut.zzy.ticklist.android.CalendarAccount;
 import edu.zjut.zzy.ticklist.bean.Course;
+import edu.zjut.zzy.ticklist.bean.ToDo;
+import edu.zjut.zzy.ticklist.dao.DBOpenHelper;
+import edu.zjut.zzy.ticklist.dao.SQLiteDao;
+import edu.zjut.zzy.ticklist.popupwindows.FirstWeekDatePopWindow;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,15 +35,21 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class WebActivity extends AppCompatActivity {
+public class WebActivity extends AppCompatActivity implements PickedDate {
     private static final String TAG = WebActivity.class.getSimpleName();
     @BindView(R.id.webView)
     public WebView webView;
     @BindView(R.id.download_button)
     public FloatingActionButton downloadButton;
     private WebSettings webSettings;
+    private FirstWeekDatePopWindow firstWeekDatePopWindow;
+
+    private LocalDate date;
+    private ArrayList<Course> courseArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +72,15 @@ public class WebActivity extends AppCompatActivity {
                         //转义
                         s = s.replace("\\u003C", "<").replace("\\", "");
                         ZJUTCourseReader zjutCourseReader = new ZJUTCourseReader();
-                        ArrayList<Course> courseArrayList = zjutCourseReader.parseCourse(s);
+                        courseArrayList = zjutCourseReader.parseCourse(s);
                     }
                 });
+                //弹出弹窗
+                firstWeekDatePopWindow = new FirstWeekDatePopWindow(WebActivity.this.getApplicationContext(), WebActivity.this);
+                firstWeekDatePopWindow.setBlurBackgroundEnable(true);
+                firstWeekDatePopWindow.setKeyboardAdaptive(true);
+                firstWeekDatePopWindow.setPopupGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER);
+                firstWeekDatePopWindow.showPopupWindow();
             }
         });
         webView.setWebViewClient(new WebViewClient(){
@@ -88,5 +110,30 @@ public class WebActivity extends AppCompatActivity {
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         //自动加载图片
         webSettings.setLoadsImagesAutomatically(true);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void setPickedDate(LocalDate pickedDate) {
+        date = pickedDate;
+        Log.d(TAG, pickedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        Course demo = courseArrayList.get(1);
+        System.out.println(demo);
+        //写入日历，创建ToDo
+        CalendarAccount calendarAccount = AndroidState.CalendarManager.searchAccount(getApplicationContext());
+        if(calendarAccount == null){
+            AndroidState.CalendarManager.createCalendar(getApplicationContext());
+            calendarAccount = AndroidState.CalendarManager.searchAccount(getApplicationContext());
+        }
+        ArrayList<ToDo> toDoArrayList = AndroidState.CalendarManager.insertCourse(getApplicationContext(), calendarAccount.getCalID(), demo, date);
+        System.out.println(toDoArrayList);
+        //将todolist写入sqlite
+        DBOpenHelper dbOpenHelper = new DBOpenHelper(getApplicationContext());
+        SQLiteDao sqLiteDao = new SQLiteDao(dbOpenHelper);
+        for (ToDo item: toDoArrayList) {
+            sqLiteDao.insertToDo(item);
+        }
+
+
     }
 }

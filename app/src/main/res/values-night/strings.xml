@@ -34,6 +34,8 @@
     <string name="confirm">确认</string>
     <string name="join_classroom">加入自习室</string>
     <string name="classroomcodeedit">自习室编码</string>
+    <string name="select_firstday">选择第一周日期</string>
+    <string name="monday_date">周一日期</string>
 
     <string-array name="english_week_string_array">
         <item>Sun</item>

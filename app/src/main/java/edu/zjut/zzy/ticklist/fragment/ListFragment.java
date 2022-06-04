@@ -255,7 +255,7 @@ public class ListFragment extends Fragment implements
 
     @Override
     public void onYearChange(int year) {
-        dateView.setText(year);
+        dateView.setText(String.valueOf(year));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
