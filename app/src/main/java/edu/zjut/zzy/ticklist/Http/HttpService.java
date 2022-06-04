@@ -26,7 +26,7 @@ import okhttp3.Response;
 
 public class HttpService {
     private static OkHttpClient okHttpClient;
-    public static final String URL = "https://f98a-115-200-38-114.ngrok.io/KiLin_war_exploded/";
+    public static final String URL = "https://04fd-115-200-46-42.ngrok.io/KiLin_war_exploded/";
 
     public static OkHttpClient getOkHttpClient() {
         if(okHttpClient == null){

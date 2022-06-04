@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -12,7 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
+import android.os.Message;
 import android.provider.CalendarContract;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,6 +27,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarLayout;
 import com.haibin.calendarview.CalendarView;
@@ -53,6 +58,7 @@ public class ListFragment extends Fragment implements
         CalendarView.OnCalendarSelectListener,
         CalendarView.OnYearChangeListener,
         HandToDo {
+    private static final String TAG = ListFragment.class.getSimpleName();
     private View root;
 
     private int year;
@@ -60,6 +66,7 @@ public class ListFragment extends Fragment implements
     private int day;
     private Map<String, Calendar> map;
     private ArrayList<ToDo> toDoArrayList;
+    private ArrayList<ToDo> monthDate;
     private ToDoAdapter toDoAdapter;
 
     //ui控件
@@ -88,7 +95,7 @@ public class ListFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if(root == null){
-            System.out.println("CreateFragement");
+            Log.d(TAG, "---------------oncreatedView");
             root = inflater.inflate(R.layout.fragment_list, container, false);
         }
         loadData();
@@ -125,26 +132,29 @@ public class ListFragment extends Fragment implements
         DBOpenHelper dbOpenHelper = new DBOpenHelper(getContext());
         SQLiteDao sqLiteDao = new SQLiteDao(dbOpenHelper);
         toDoArrayList = sqLiteDao.getTODoListRange(today);
-
+        monthDate = sqLiteDao.getToDoMonth(year, month);
+        Log.d(TAG, monthDate.toString());
         map = new HashMap<>();
-        map.put(getSchemeCalendar(year, month, 3, 0xFF40db25, "10").toString(),
-                getSchemeCalendar(year, month, 3, 0xFF40db25, "10"));
-        map.put(getSchemeCalendar(year, month, 6, 0xFFe69138, "33").toString(),
-                getSchemeCalendar(year, month, 6, 0xFFe69138, "33"));
-        map.put(getSchemeCalendar(year, month, 9, 0xFFdf1356, "25").toString(),
-                getSchemeCalendar(year, month, 9, 0xFFdf1356, "25"));
-        map.put(getSchemeCalendar(year, month, 13, 0xFFedc56d, "50").toString(),
-                getSchemeCalendar(year, month, 13, 0xFFedc56d, "50"));
-        map.put(getSchemeCalendar(year, month, 14, 0xFFedc56d, "80").toString(),
-                getSchemeCalendar(year, month, 14, 0xFFedc56d, "80"));
-        map.put(getSchemeCalendar(year, month, 15, 0xFFaacc44, "20").toString(),
-                getSchemeCalendar(year, month, 15, 0xFFaacc44, "20"));
-        map.put(getSchemeCalendar(year, month, 18, 0xFFbc13f0, "20").toString(),
-                getSchemeCalendar(year, month, 18, 0xFFbc13f0, "20"));
-        map.put(getSchemeCalendar(year, month, 25, 0xFF13acf0, "36").toString(),
-                getSchemeCalendar(year, month, 25, 0xFF13acf0, "36"));
-        map.put(getSchemeCalendar(year, month, 27, 0xFF13acf0, "95").toString(),
-                getSchemeCalendar(year, month, 27, 0xFF13acf0, "95"));
+        LocalDate firstDay = LocalDate.of(year, month, 1);
+        LocalDate lastDay = LocalDate.of(year + month / 12, (month + 1) % 12, 1);
+        int i = 0;
+        while (firstDay.isBefore(lastDay)){
+            int finished = 0;
+            int total = 0;
+            while (i < monthDate.size() && monthDate.get(i).getDate().isEqual(firstDay)){
+                total++;
+                if(monthDate.get(i).isFinish()){
+                    finished++;
+                }
+                i++;
+            }
+            if(total != 0){
+                map.put(getSchemeCalendar(firstDay.getYear(), firstDay.getMonthValue(), firstDay.getDayOfMonth(), 0xFF40db25, String.valueOf(finished * 100/ total)).toString(),
+                        getSchemeCalendar(firstDay.getYear(), firstDay.getMonthValue(), firstDay.getDayOfMonth(), 0xFF40db25, String.valueOf(finished * 100/ total)));
+            }
+
+            firstDay = firstDay.plusDays(1);
+        }
 
     }
 
@@ -209,11 +219,15 @@ public class ListFragment extends Fragment implements
                     @Override
                     public void run(){
                         super.run();
-//                        DBOpenHelper dbOpenHelper = new DBOpenHelper(getContext());
-//                        SQLiteDao sqLiteDao = new SQLiteDao(dbOpenHelper);
-//                        toDoArrayList = sqLiteDao.getTODoListRange(LocalDate.of(year, month, day));
-//                        System.out.println(LocalDate.of(year, month, day).toString());
-//                        toDoAdapter.setData(toDoArrayList);
+                        DBOpenHelper dbOpenHelper = new DBOpenHelper(getContext());
+                        SQLiteDao sqLiteDao = new SQLiteDao(dbOpenHelper);
+
+                        Message message1 = listHandler.obtainMessage(1);
+                        message1.obj = sqLiteDao.getTODoListRange(LocalDate.of(year, month, day));;
+                        listHandler.sendMessage(message1);
+                        Message message2 = listHandler.obtainMessage(2);
+                        message2.obj = sqLiteDao.getToDoMonth(year, month);
+                        listHandler.sendMessage(message2);
                     }
                 }.start();
 
@@ -224,6 +238,7 @@ public class ListFragment extends Fragment implements
 
     private Calendar getSchemeCalendar(int year, int month, int day, int color, String text) {
         Calendar calendar = new Calendar();
+
         calendar.setYear(year);
         calendar.setMonth(month);
         calendar.setDay(day);
@@ -264,4 +279,55 @@ public class ListFragment extends Fragment implements
         toDoArrayList.add(toDo);
         toDoAdapter.insertToDo(toDoArrayList.size());
     }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void refreshMonthView(ArrayList<ToDo> monthdata){
+        if(!map.isEmpty()){
+            map.clear();
+        }
+        LocalDate firstDay = LocalDate.of(year, month, 1);
+        LocalDate lastDay = LocalDate.of(year + month / 12, (month + 1) % 12, 1);
+        int i = 0;
+        while (firstDay.isBefore(lastDay)){
+            int finished = 0;
+            int total = 0;
+            while (i < monthDate.size() && monthDate.get(i).getDate().isEqual(firstDay)){
+                total++;
+                if(monthDate.get(i).isFinish()){
+                    finished++;
+                }
+                i++;
+            }
+            if(total != 0){
+                map.put(getSchemeCalendar(firstDay.getYear(), firstDay.getMonthValue(), firstDay.getDayOfMonth(), 0xFF40db25, String.valueOf(finished * 100/ total)).toString(),
+                        getSchemeCalendar(firstDay.getYear(), firstDay.getMonthValue(), firstDay.getDayOfMonth(), 0xFF40db25, String.valueOf(finished * 100/ total)));
+            }
+
+            firstDay = firstDay.plusDays(1);
+        }
+    }
+
+
+    private Handler listHandler = new Handler(){
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 1:
+                    toDoArrayList = (ArrayList<ToDo>) msg.obj;
+                    toDoAdapter.setData(toDoArrayList);
+                    Log.d(TAG, "refresh todaydata" + toDoArrayList.toString());
+                    break;
+                case 2:
+                    monthDate = (ArrayList<ToDo>) msg.obj;
+                    Log.d(TAG, "refresh monthdata" + monthDate.toString());
+                    refreshMonthView(monthDate);
+                    swipeRefreshLayout.setRefreshing(false);
+                    break;
+
+            }
+        }
+    };
 }

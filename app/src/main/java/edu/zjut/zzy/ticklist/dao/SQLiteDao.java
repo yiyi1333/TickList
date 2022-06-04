@@ -45,9 +45,9 @@ public class SQLiteDao {
                     time = LocalDateTime.parse(dateStr + "-" + timeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm"));
                 }
             }
-            list.add(new ToDo( cursor.getString(cursor.getColumnIndex("content")),
+            list.add(new ToDo( cursor.getInt(cursor.getColumnIndex("kilin_id")), cursor.getString(cursor.getColumnIndex("content")),
                     cursor.getString(cursor.getColumnIndex("description")),  date,
-                    cursor.getInt(cursor.getColumnIndex("repeatedWay")), time,
+                    cursor.getInt(cursor.getColumnIndex("repeatedWay")), cursor.getInt(cursor.getColumnIndex("repeated_id")), time,
                     cursor.getInt(cursor.getColumnIndex("timermode")), cursor.getInt(cursor.getColumnIndex("targettime")), cursor.getInt(cursor.getColumnIndex("finishtime")),
                     cursor.getInt(cursor.getColumnIndex("isfinish")) == 1, cursor.getInt(cursor.getColumnIndex("focustime"))));
         }
@@ -63,6 +63,38 @@ public class SQLiteDao {
                 "from todo\n" +
                 "where date = ?";
         Cursor cursor = db.rawQuery(sql, new String[]{range.toString()});
+        while(cursor.moveToNext()){
+            LocalDate date = null;
+            LocalDateTime time = null;
+            String dateStr = cursor.getString(cursor.getColumnIndex("date"));
+            String timeStr = cursor.getString(cursor.getColumnIndex("time"));
+            if(dateStr != null){
+                date = LocalDate.parse(dateStr);
+                if(timeStr != null){
+                    time = LocalDateTime.parse(dateStr + "-" + timeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm"));
+                }
+            }
+            list.add(new ToDo( cursor.getInt(cursor.getColumnIndex("kilin_id")), cursor.getString(cursor.getColumnIndex("content")),
+                    cursor.getString(cursor.getColumnIndex("description")),  date,
+                    cursor.getInt(cursor.getColumnIndex("repeatedWay")),  cursor.getInt(cursor.getColumnIndex("repeated_id")), time,
+                    cursor.getInt(cursor.getColumnIndex("timermode")), cursor.getInt(cursor.getColumnIndex("targettime")), cursor.getInt(cursor.getColumnIndex("finishtime")),
+                    cursor.getInt(cursor.getColumnIndex("isfinish")) == 1, cursor.getInt(cursor.getColumnIndex("focustime"))));
+        }
+        return list;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint("Range")
+    public ArrayList<ToDo> getToDoMonth(int year, int month){
+        ArrayList<ToDo> list = new ArrayList<>();
+        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
+        String sql = "select *\n" +
+                "from todo\n" +
+                "where date >= ? and date < ?\n" +
+                "order by date asc;";
+        LocalDate begin = LocalDate.of(year, month, 1);
+        LocalDate end = LocalDate.of(year + month / 12, (month + 1) % 12, 1);
+        Cursor cursor = db.rawQuery(sql, new String[]{begin.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), end.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))});
         while(cursor.moveToNext()){
             LocalDate date = null;
             LocalDateTime time = null;
@@ -124,9 +156,9 @@ public class SQLiteDao {
                     time = LocalDateTime.parse(dateStr + "-" + timeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm"));
                 }
             }
-            todo = new ToDo( cursor.getString(cursor.getColumnIndex("content")),
+            todo = new ToDo( cursor.getInt(cursor.getColumnIndex("kilin_id")), cursor.getString(cursor.getColumnIndex("content")),
                     cursor.getString(cursor.getColumnIndex("description")),  date,
-                    cursor.getInt(cursor.getColumnIndex("repeatedWay")), time,
+                    cursor.getInt(cursor.getColumnIndex("repeatedWay")), cursor.getInt(cursor.getColumnIndex("repeated_id")), time,
                     cursor.getInt(cursor.getColumnIndex("timermode")), cursor.getInt(cursor.getColumnIndex("targettime")), cursor.getInt(cursor.getColumnIndex("finishtime")),
                     cursor.getInt(cursor.getColumnIndex("isfinish")) == 1, cursor.getInt(cursor.getColumnIndex("focustime")));
         }

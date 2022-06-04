@@ -117,23 +117,23 @@ public class WebActivity extends AppCompatActivity implements PickedDate {
     public void setPickedDate(LocalDate pickedDate) {
         date = pickedDate;
         Log.d(TAG, pickedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        Course demo = courseArrayList.get(1);
-        System.out.println(demo);
+//        Course demo = courseArrayList.get(1);
+//        System.out.println(demo);
         //写入日历，创建ToDo
         CalendarAccount calendarAccount = AndroidState.CalendarManager.searchAccount(getApplicationContext());
         if(calendarAccount == null){
             AndroidState.CalendarManager.createCalendar(getApplicationContext());
             calendarAccount = AndroidState.CalendarManager.searchAccount(getApplicationContext());
         }
-        ArrayList<ToDo> toDoArrayList = AndroidState.CalendarManager.insertCourse(getApplicationContext(), calendarAccount.getCalID(), demo, date);
-        System.out.println(toDoArrayList);
-        //将todolist写入sqlite
-        DBOpenHelper dbOpenHelper = new DBOpenHelper(getApplicationContext());
-        SQLiteDao sqLiteDao = new SQLiteDao(dbOpenHelper);
-        for (ToDo item: toDoArrayList) {
-            sqLiteDao.insertToDo(item);
+        for ( Course d: courseArrayList) {
+            ArrayList<ToDo> toDoArrayList = AndroidState.CalendarManager.insertCourse(getApplicationContext(), calendarAccount.getCalID(), d, date);
+            System.out.println(toDoArrayList);
+            //将todolist写入sqlite
+            DBOpenHelper dbOpenHelper = new DBOpenHelper(getApplicationContext());
+            SQLiteDao sqLiteDao = new SQLiteDao(dbOpenHelper);
+            for (ToDo item: toDoArrayList) {
+                sqLiteDao.insertToDo(item);
+            }
         }
-
-
     }
 }

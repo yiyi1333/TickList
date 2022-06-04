@@ -56,6 +56,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setData(ArrayList<ToDo> newData){
         this.data = newData;
         notifyDataSetChanged();
