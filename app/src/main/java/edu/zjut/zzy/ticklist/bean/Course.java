@@ -17,7 +17,7 @@ public class Course {
     private int endTime;
 
     //Monday
-    private String courseWeekday;
+    private int courseWeekday;
 
     @Override
     public String toString() {
@@ -33,22 +33,11 @@ public class Course {
                 '}';
     }
 
-    public Course(String[] infoArrays, String weekDay) {
-        //课程名，上课周数，上课节数
-        String Info = infoArrays[0];
-        String [] cuts;
-        if(Info.contains("◆")){
-            cuts = Info.split("◆");
-        }
-        else if(Info.contains("○")){
-            cuts = Info.split("○");
-        }
-        else {
-            cuts = new String[0];
-        }
+    public Course(String[] infoArrays, int weekDay) {
+        //课程名
+        this.courseName = infoArrays[0];
         //移动应用开发 (1-2节)1-8周
-        this.courseName = cuts[0];
-        String [] timeweekCuts = cuts[1].split("\\)");
+        String [] timeweekCuts = infoArrays[1].split("\\)");
         //(1-2节 1-8周
         String [] timeCuts = timeweekCuts[0].split("-");
         StringBuilder time = new StringBuilder();
@@ -81,16 +70,17 @@ public class Course {
             }
         }
         this.endWeek = Integer.parseInt(week.toString());
-        this.courseClassroom = infoArrays[1];
-        this.courseTeacher = infoArrays[2];
+        this.courseClassroom = infoArrays[2] + " " + infoArrays[3];
+        this.courseTeacher = infoArrays[4];
         this.courseWeekday = weekDay;
     }
 
-    public String getCourseWeekday() {
+
+    public int getCourseWeekday() {
         return courseWeekday;
     }
 
-    public void setCourseWeekday(String courseWeekday) {
+    public void setCourseWeekday(int courseWeekday) {
         this.courseWeekday = courseWeekday;
     }
 

@@ -18,6 +18,8 @@
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/ic_clock.xml" value="0.402" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/ic_clock2.xml" value="0.281" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/ic_clock_custom.xml" value="0.3165" />
+        <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/ic_course.xml" value="0.162" />
+        <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/ic_download.xml" value="0.1595" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/ic_finish.xml" value="0.313" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/ic_forest.xml" value="0.313" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/ic_launcher_background.xml" value="0.281" />
@@ -38,6 +40,7 @@
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/activity_main.xml" value="0.21904761904761905" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/activity_start.xml" value="0.390625" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/activity_warn.xml" value="0.37395833333333334" />
+        <entry key="..\:/Android Project/TickList/app/src/main/res/layout/activity_web.xml" value="0.278125" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/clock_fragment.xml" value="0.19739583333333333" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/content_immersion_model.xml" value="0.5494791666666666" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/datepickpopupwindow.xml" value="0.30885416666666665" />
@@ -52,6 +55,7 @@
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/fragment_second.xml" value="0.36354166666666665" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/fragment_statistics.xml" value="0.45729166666666665" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/list_fragment.xml" value="0.1" />
+        <entry key="..\:/Android Project/TickList/app/src/main/res/layout/menu_float.xml" value="0.2942708333333333" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/person_fragment.xml" value="0.19739583333333333" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/popwindow_classroom_create.xml" value="0.5" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/popwindow_classroom_join.xml" value="0.5494791666666666" />

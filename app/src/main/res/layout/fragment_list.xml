@@ -27,13 +27,13 @@
 
         <ImageView
             android:id="@+id/moreoptions"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_more"
-            android:contentDescription="@string/options" />
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/options"
+            android:src="@drawable/ic_course" />
 
     </RelativeLayout>
 

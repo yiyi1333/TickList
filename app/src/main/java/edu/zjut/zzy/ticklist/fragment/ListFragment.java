@@ -1,6 +1,7 @@
 package edu.zjut.zzy.ticklist.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -39,6 +40,7 @@ import edu.zjut.zzy.ticklist.CInterface.HandToDo;
 import edu.zjut.zzy.ticklist.CInterface.SwitchFragment;
 import edu.zjut.zzy.ticklist.MainActivity;
 import edu.zjut.zzy.ticklist.R;
+import edu.zjut.zzy.ticklist.activity.WebActivity;
 import edu.zjut.zzy.ticklist.adapter.ToDoAdapter;
 import edu.zjut.zzy.ticklist.bean.ToDo;
 import edu.zjut.zzy.ticklist.custom.ItemTouchHelperCallback;
@@ -157,6 +159,13 @@ public class ListFragment extends Fragment implements
     }
 
     private void bindListener(){
+        moreOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), WebActivity.class);
+                startActivity(intent);
+            }
+        });
         add.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override

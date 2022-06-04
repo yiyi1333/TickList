@@ -4,6 +4,6 @@ import java.util.ArrayList;
 
 import edu.zjut.zzy.ticklist.bean.Course;
 
-public interface PDFReader {
-    public ArrayList<Course> ReadCourses(String PDFPath);
+public interface CouseReader {
+    public ArrayList<Course> parseCourse(String htmlContent);
 }
