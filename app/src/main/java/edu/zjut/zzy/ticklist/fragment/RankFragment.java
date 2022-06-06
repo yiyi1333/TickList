@@ -43,6 +43,8 @@ import edu.zjut.zzy.ticklist.bean.ClassroomInfo;
 import edu.zjut.zzy.ticklist.bean.RankInfo;
 import edu.zjut.zzy.ticklist.custom.ItemTouchHelperCallback;
 import edu.zjut.zzy.ticklist.custom.SpaceItemDecoration;
+import edu.zjut.zzy.ticklist.dao.DBOpenHelper;
+import edu.zjut.zzy.ticklist.dao.SQLiteDao;
 import edu.zjut.zzy.ticklist.popupwindows.ClassroomCreatePopWindow;
 import edu.zjut.zzy.ticklist.popupwindows.ClassroomJoinPopWindow;
 import okhttp3.Call;
@@ -166,6 +168,15 @@ public class RankFragment extends Fragment implements ClassroomJoin {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void loadListData(){
+        //先从本地存储查询数据
+        DBOpenHelper dbOpenHelper = new DBOpenHelper(getContext());
+        SQLiteDao sqLiteDao = new SQLiteDao(dbOpenHelper);
+        rankInfos = sqLiteDao.getRankInfo();
+        if(rankInfos.size() > 0){
+            //有数据先渲染
+            loadRankView();
+            Log.d(TAG, "Local RankInfos" + rankInfos.toString());
+        }
         UserManager userManager = new UserManager(getContext());
         String email = userManager.getEmail();
         LocalDate nowDate = LocalDate.now();
@@ -268,7 +279,25 @@ public class RankFragment extends Fragment implements ClassroomJoin {
                     TypeToken<ArrayList<RankInfo>> typeToken = new TypeToken<ArrayList<RankInfo>>(){};
                     rankInfos = gson.fromJson(jsonStr, typeToken.getType());
                     Log.d(TAG, "rankInfos: " + rankInfos.toString());
-                    loadRankView();
+                    if(rankAdapter == null){
+                        loadRankView();
+                    }
+                    else {
+                        rankAdapter.setUpdateData(rankInfos);
+                    }
+                    //更新数据库
+                    new Thread(){
+                        @Override
+                        public void run() {
+                            super.run();
+                            DBOpenHelper dbOpenHelper = new DBOpenHelper(getContext());
+                            SQLiteDao sqLiteDao = new SQLiteDao(dbOpenHelper);
+                            sqLiteDao.clearRankInfo();
+                            for(RankInfo r : rankInfos){
+                                sqLiteDao.insertRankInfo(r);
+                            }
+                        }
+                    }.start();
                     break;
                 case 2:
                     //有自习室信息，更新一下sp

@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import edu.zjut.zzy.ticklist.bean.Focus;
+import edu.zjut.zzy.ticklist.bean.RankInfo;
 import edu.zjut.zzy.ticklist.bean.ToDo;
 
 public class SQLiteDao {
@@ -233,5 +234,37 @@ public class SQLiteDao {
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         db.delete("todo", "kilin_id = ?" , new String[]{String.valueOf(toDo.getKiLinId())});
+    }
+
+    @SuppressLint("Range")
+    public ArrayList<RankInfo> getRankInfo(){
+        ArrayList<RankInfo> list = new ArrayList<>();
+        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
+        String sql = "select *\n" +
+                "from rankinfo\n" +
+                "order by rank_number asc;";
+        Cursor cursor = db.rawQuery(sql, null);
+        while (cursor.moveToNext()){
+            list.add(new RankInfo(cursor.getInt(cursor.getColumnIndex("rank_number")), cursor.getString(cursor.getColumnIndex("user_name")), cursor.getInt(cursor.getColumnIndex("total_focustime")),
+                    cursor.getString(cursor.getColumnIndex("image_url")), cursor.getString(cursor.getColumnIndex("email"))));
+        }
+        return list;
+    }
+
+    public void insertRankInfo(RankInfo rankInfo){
+        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("rank_number", rankInfo.getRankNumber());
+        values.put("user_name", rankInfo.getUserName());
+        values.put("total_focustime", rankInfo.getTotalFocusTime());
+        values.put("image_url", rankInfo.getImageUrl());
+        values.put("email", rankInfo.getEmail());
+        db.insert("rankinfo", null, values);
+    }
+
+    public void clearRankInfo(){
+        String sql = "delete from rankinfo;";
+        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+        db.execSQL(sql);
     }
 }

@@ -48,6 +48,14 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             "    finishtime    text,\n" +
             "    isupload      int\n" +
             ");";
+
+    private static final String INIT_SQLITE3 = "create table rankinfo(\n" +
+            "    rank_number int not null,\n" +
+            "    user_name   text null,\n" +
+            "    total_focustime int null,\n" +
+            "    image_url   text null,\n" +
+            "    email       text not null\n" +
+            ");";
     public DBOpenHelper(Context context){
         super(context, DB_NAME, null, 1);
     }
@@ -58,6 +66,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(INIT_SQLITE1);
         sqLiteDatabase.execSQL(INIT_SQLITE2);
+        sqLiteDatabase.execSQL(INIT_SQLITE3);
         //插入初始数据
         ToDo todo = new ToDo(0, "未定义待办事项", null, null, 0, 0, null, -1, 25, 0, false, 25);
         ContentValues values = new ContentValues();

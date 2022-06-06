@@ -18,6 +18,17 @@ public class RankInfo {
                 '}';
     }
 
+    public RankInfo(int rankNumber, String userName, int totalFocusTime, String imageUrl, String email) {
+        this.rankNumber = rankNumber;
+        this.userName = userName;
+        this.totalFocusTime = totalFocusTime;
+        this.imageUrl = imageUrl;
+        this.email = email;
+    }
+
+    public RankInfo() {
+    }
+
     public int getRankNumber() {
         return rankNumber;
     }

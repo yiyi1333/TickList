@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements SwitchFragment {
                         break;
 
                     case R.id.rank:
+                        getWindow().setStatusBarColor(Color.rgb(54, 132, 132));
                         fragment = new RankFragment();
                         fragmentFlag = 2;
                         break;
@@ -130,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements SwitchFragment {
 
 
                     case R.id.person:
+                        getWindow().setStatusBarColor(Color.WHITE);
                         fragment = new PersonFragment();
                         fragmentFlag = 5;
                         break;

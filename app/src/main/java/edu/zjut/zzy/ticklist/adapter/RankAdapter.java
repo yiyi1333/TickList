@@ -1,10 +1,7 @@
 package edu.zjut.zzy.ticklist.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -15,18 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import edu.zjut.zzy.ticklist.R;
 import edu.zjut.zzy.ticklist.bean.RankInfo;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Request.Builder;
-import okhttp3.Response;
 
 public class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankViewHolder> {
     private static final String TAG = RankAdapter.class.getSimpleName();
@@ -63,7 +52,11 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankViewHolder
         return data == null ? 0 : data.size();
     }
 
-
+    @SuppressLint("NotifyDataSetChanged")
+    public void setUpdateData(ArrayList<RankInfo> rankInfos) {
+        this.data = rankInfos;
+        notifyDataSetChanged();
+    }
 
 
     public class RankViewHolder extends RecyclerView.ViewHolder{
