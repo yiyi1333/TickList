@@ -68,4 +68,12 @@
     <string name="classroomcodeedit">自习室编码</string>
     <string name="select_firstday">选择第一周日期</string>
     <string name="monday_date">周一日期</string>
+    <string name="app_description">目前已支持浙江工业大学教务</string>
+    <string name="app_feature">教务课表导入</string>
+    <string name="setting">设置</string>
+    <string name="qq_share">QQ分享</string>
+    <string name="wechat_share">微信分享</string>
+    <string name="help">帮助中心</string>
+    <string name="contact">联系我们</string>
+    <string name="about_us">关于</string>
 </resources>

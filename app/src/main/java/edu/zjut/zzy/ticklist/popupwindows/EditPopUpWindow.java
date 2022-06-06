@@ -416,7 +416,9 @@ public class EditPopUpWindow extends BasePopupWindow implements PickedDate, Pick
                                 AndroidState.CalendarManager.createCalendar(context);
                                 calendarAccount = AndroidState.CalendarManager.searchAccount(context);
                             }
-                            todo.setEventID(AndroidState.CalendarManager.insertEvents(context, calendarAccount.getCalID(), todo));
+                            if(todo.getTime() != null){
+                                todo.setEventID(AndroidState.CalendarManager.insertEvents(context, calendarAccount.getCalID(), todo));
+                            }
                         }
 
                         LocalDate temp = todo.getDate();
@@ -440,7 +442,9 @@ public class EditPopUpWindow extends BasePopupWindow implements PickedDate, Pick
                             AndroidState.CalendarManager.createCalendar(context);
                             calendarAccount = AndroidState.CalendarManager.searchAccount(context);
                         }
-                        todo.setEventID(AndroidState.CalendarManager.insertEvents(context, calendarAccount.getCalID(), todo));
+                        if(todo.getTime() != null){
+                            todo.setEventID(AndroidState.CalendarManager.insertEvents(context, calendarAccount.getCalID(), todo));
+                        }
                         DBOpenHelper dbOpenHelper = new DBOpenHelper(getContext());
                         SQLiteDao sqLiteDao = new SQLiteDao(dbOpenHelper);
                         /* 创建一个重复组号和唯一id号 */

@@ -128,10 +128,6 @@ public class MainActivity extends AppCompatActivity implements SwitchFragment {
                         fragmentFlag = 3;
                         break;
 
-                    case R.id.statistics:
-                        fragment = new StatisticsFragment();
-                        fragmentFlag = 4;
-                        break;
 
                     case R.id.person:
                         fragment = new PersonFragment();

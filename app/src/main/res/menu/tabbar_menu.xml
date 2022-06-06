@@ -9,9 +9,6 @@
     <item android:id="@+id/clock"
         android:title="番茄钟"
         android:icon="@drawable/ic_clock"/>
-    <item android:id="@+id/statistics"
-        android:title="回顾"
-        android:icon="@drawable/ic_chart"/>
     <item android:id="@+id/person"
         android:title="个人中心"
         android:icon="@drawable/ic_personalcenter"/>

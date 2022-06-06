@@ -4,13 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.101" />
+        <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/app_introduction.xml" value="0.3165" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/btn_confirm.xml" value="0.273" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/button_normal_selected.xml" value="0.1825" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/button_normal_unselect.xml" value="0.1825" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/button_style1.xml" value="0.1" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/carditem.xml" value="0.2395" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/circlebtn.xml" value="0.2195" />
+        <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/circular_btn_ripple.xml" value="0.2415" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/classroom_btn.xml" value="0.273" />
+        <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/click_ripple.xml" value="0.2415" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/editborder.xml" value="0.2195" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/huawei_card.xml" value="0.273" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/ic_add.xml" value="0.1" />
@@ -33,7 +36,9 @@
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/ic_screen.xml" value="0.313" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/ic_ticklist.xml" value="0.208" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/ic_tomato.xml" value="0.313" />
+        <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/ic_toright.xml" value="0.2415" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/radio_check.xml" value="0.1" />
+        <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/ripper.xml" value="0.2185" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/under_line.xml" value="0.274" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/activity_immersionmodel.xml" value="0.33" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/activity_login.xml" value="0.41770833333333335" />
