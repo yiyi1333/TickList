@@ -47,7 +47,7 @@ public class UserManager {
 
     /* 用户密码 */
     public String getUserPassword(){
-        return sp.getString("userPassword", "12345678");
+        return sp.getString("userPassword", null);
     }
 
     public void setUserPassword(String password){

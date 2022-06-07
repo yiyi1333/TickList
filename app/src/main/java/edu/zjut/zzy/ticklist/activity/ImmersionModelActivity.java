@@ -42,7 +42,7 @@ import edu.zjut.zzy.ticklist.service.MonitorService;
 public class ImmersionModelActivity extends AppCompatActivity {
     private static final String TAG = ImmersionModelActivity.class.getSimpleName();
     private static TextView clockTime;
-
+    private static Context context;
     private static ToDo todoRecent;
     private static int targetTime;
     private static int finishTime;
@@ -68,6 +68,7 @@ public class ImmersionModelActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_immersionmodel);
 
+        context = getApplicationContext();
         clockTime = findViewById(R.id.clock_time);
 
         Bundle bundle = this.getIntent().getExtras();
@@ -145,10 +146,15 @@ public class ImmersionModelActivity extends AppCompatActivity {
             if(targetTime == 0 && hour == 3){
                 //正向计时
                 Log.d(TAG, "结束正向计时");
+                //上传数据
+
             }
             else if(targetTime != 0 && hour * 3600 + minute * 60 + second <= 0){
                 //
                 Log.d(TAG, "结束倒计时");
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         }
     };

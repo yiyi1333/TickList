@@ -41,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
     public CheckBox autoLogin;
     @BindView(R.id.login_button)
     public Button login;
+    @BindView(R.id.register_url)
+    public TextView registerUrl;
 
     private String userName;
 
@@ -76,18 +78,24 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                             if(response.isSuccessful()){
-                                userName = response.body().string();
+                                userName = response.body().string().split("\"")[1];
                                 Log.d(TAG, userName);
-                                UserManager userManager = new UserManager(getApplicationContext());
-                                userManager.setAutoLoginSetting(autoLogin.isChecked());
-                                userManager.setUserName(userName);
-                                userManager.setEmail(account.getText().toString());
-                                userManager.setUserPassword(password.getText().toString());
+                                if(userName.equals("用户名密码错误")){
+                                    Log.d(TAG, userName);
+                                }
+                                else{
+                                    UserManager userManager = new UserManager(getApplicationContext());
+                                    userManager.setAutoLoginSetting(autoLogin.isChecked());
+                                    userManager.setUserName(userName);
+                                    userManager.setEmail(account.getText().toString());
+                                    userManager.setUserPassword(password.getText().toString());
 
-                                //跳转页面
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
+                                    //跳转页面
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                }
+
                             }
                         }
                     });
@@ -95,6 +103,25 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
+        registerUrl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this.getApplicationContext(), RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        UserManager userManager = new UserManager(getApplicationContext());
+        String email = userManager.getEmail();
+        String pwd = userManager.getUserPassword();
+        if(email != null && !email.equals("")){
+            account.setText(email);
+        }
+
+        if(pwd != null && !pwd.equals("")){
+            password.setText(pwd);
+        }
 
 
 

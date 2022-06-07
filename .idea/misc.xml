@@ -6,6 +6,8 @@
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.101" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/app_introduction.xml" value="0.3165" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/btn_confirm.xml" value="0.273" />
+        <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/btn_get_verification_code.xml" value="0.2615" />
+        <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/btn_logout.xml" value="0.336" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/button_normal_selected.xml" value="0.1825" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/button_normal_unselect.xml" value="0.1825" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/drawable/button_style1.xml" value="0.1" />
@@ -43,6 +45,7 @@
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/activity_immersionmodel.xml" value="0.33" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/activity_login.xml" value="0.41770833333333335" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/activity_main.xml" value="0.21904761904761905" />
+        <entry key="..\:/Android Project/TickList/app/src/main/res/layout/activity_register.xml" value="0.33" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/activity_start.xml" value="0.390625" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/activity_warn.xml" value="0.37395833333333334" />
         <entry key="..\:/Android Project/TickList/app/src/main/res/layout/activity_web.xml" value="0.278125" />

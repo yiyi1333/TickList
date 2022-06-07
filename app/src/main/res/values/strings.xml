@@ -76,4 +76,9 @@
     <string name="help">帮助中心</string>
     <string name="contact">联系我们</string>
     <string name="about_us">关于</string>
+    <string name="logout">退出登录</string>
+    <string name="email">请输入邮箱</string>
+    <string name="again_password">再次输入密码</string>
+    <string name="get_verification_code">获取验证码</string>
+    <string name="to_register">没有账号？前往注册</string>
 </resources>

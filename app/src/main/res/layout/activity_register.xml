@@ -45,12 +45,11 @@
             android:id="@+id/account_edit"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
+            android:background="@drawable/editborder"
             android:ems="14"
             android:gravity="center"
-            android:hint="@string/account"
-            android:singleLine="true"
-            android:background="@drawable/editborder"
-            />
+            android:hint="@string/email"
+            android:singleLine="true" />
     </RelativeLayout>
 
 
@@ -60,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/account_layout"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="10dp">
 
         <EditText
             android:id="@+id/password_edit"
@@ -74,44 +73,73 @@
             android:singleLine="true" />
     </RelativeLayout>
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        style="@style/Widget.AppCompat.CompoundButton.RadioButton"
+
+    <RelativeLayout
+        android:id="@+id/again_password_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/password_layout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="104dp"
-        android:text="@string/auto_login"
-        android:textColor="@color/custom_Gray"
-        android:textSize="14dp"
-        tools:ignore="TouchTargetSizeCheck" />
+        android:layout_below="@id/password_layout"
+        android:layout_marginTop="10dp">
+
+        <EditText
+            android:id="@+id/again_password_edit"
+            android:inputType="textPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:ems="14"
+            android:gravity="center"
+            android:hint="@string/again_password"
+            android:singleLine="true"
+            android:background="@drawable/editborder"
+            />
+    </RelativeLayout>
+
+<!--    验证码-->
+    <RelativeLayout
+        android:id="@+id/verification_code_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/again_password_layout"
+        android:background="@drawable/editborder"
+        android:layout_marginTop="10dp">
+
+        <EditText
+            android:id="@+id/verification_code_edit"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/editborder"
+            android:ems="14"
+            android:gravity="center"
+            android:inputType="number"
+            android:singleLine="true" />
+
+        <Button
+            android:id="@+id/verification_code_button"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_toEndOf="@id/verification_code_edit"
+            android:background="@drawable/btn_get_verification_code"
+            android:textColor="@color/Huawei_White"
+            android:text="@string/get_verification_code" />
+
+    </RelativeLayout>
 
 
     <Button
         android:id="@+id/login_button"
         android:layout_width="82dp"
         android:layout_height="82dp"
-        android:layout_below="@id/checkBox"
+        android:layout_below="@id/verification_code_layout"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/circlebtn"
         android:text="→"
         android:textColor="#ffffff"
         android:textSize="30dp"
         android:textStyle="bold" />
-
-
-    <TextView
-        android:id="@+id/register_url"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:text="@string/to_register"
-        android:textStyle="italic"
-        android:textColor="@color/Mask_Green2"/>
 
 
 
